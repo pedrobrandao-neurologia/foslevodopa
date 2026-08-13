@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Calculadora de Infusão — Foslevodopa/Foscarbidopa</title>
+<title>Foslevodopa · Infusão + LEDD</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -25,14 +25,27 @@
     --sans:'IBM Plex Sans',system-ui,sans-serif;
   }
   *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:var(--sans);background:var(--bg);color:var(--ink);line-height:1.5;padding:32px 16px 64px}
+  body{font-family:var(--sans);background:var(--bg);color:var(--ink);line-height:1.5;padding:24px 16px 64px}
   .wrap{max-width:880px;margin:0 auto}
 
-  header.app{margin-bottom:28px}
+  header.app{margin-bottom:16px}
   .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:6px}
-  h1{font-size:26px;font-weight:700;letter-spacing:-.01em}
+  h1{font-size:24px;font-weight:700;letter-spacing:-.01em}
   h1 span{color:var(--accent)}
-  .sub{color:var(--ink-soft);font-size:14px;margin-top:6px;max-width:640px}
+  .sub{color:var(--ink-soft);font-size:13.5px;margin-top:6px;max-width:680px}
+
+  /* ---------- ABAS ---------- */
+  nav.tabs{display:flex;gap:6px;margin:18px 0 20px;position:sticky;top:0;z-index:10;
+    background:var(--bg);padding:8px 0;border-bottom:1px solid var(--line)}
+  nav.tabs button{
+    flex:1;border:1px solid var(--line);background:var(--card);color:var(--ink-soft);
+    border-radius:8px;padding:10px 8px;font-family:var(--sans);font-size:14px;font-weight:600;
+    cursor:pointer;transition:background .12s,color .12s}
+  nav.tabs button:hover{border-color:var(--accent)}
+  nav.tabs button.active{background:var(--accent);border-color:var(--accent);color:#fff}
+  nav.tabs button .t-ico{font-family:var(--mono);font-size:11px;display:block;letter-spacing:.1em;opacity:.75;text-transform:uppercase}
+  .tab-pane{display:none}
+  .tab-pane.active{display:block}
 
   .card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:22px 24px;margin-bottom:18px}
   .card h2{font-size:15px;font-weight:600;margin-bottom:4px;display:flex;align-items:baseline;gap:10px}
@@ -40,16 +53,20 @@
   .hint{font-size:12.5px;color:var(--ink-soft);margin-bottom:14px}
 
   label{display:block;font-size:12.5px;font-weight:500;color:var(--ink-soft);margin-bottom:4px}
-  input[type=text],input[type=number],select{
+  input[type=text],input[type=number],input[type=date],select{
     width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:6px;
     font-family:var(--sans);font-size:14px;color:var(--ink);background:#fff;
   }
-  input[type=number]{font-family:var(--mono)}
+  input[type=number],input[type=date]{font-family:var(--mono)}
+  input:disabled{background:var(--bg);color:var(--ink-soft)}
   input:focus,select:focus{outline:2px solid var(--accent);outline-offset:1px;border-color:var(--accent)}
   .grid{display:grid;gap:14px}
   .g2{grid-template-columns:1fr 1fr}
   .g3{grid-template-columns:1fr 1fr 1fr}
   @media(max-width:640px){.g2,.g3{grid-template-columns:1fr}}
+
+  .chip{display:inline-block;background:#E8F5F6;color:var(--accent-deep);border:1px solid #BFE3E6;
+    border-radius:999px;padding:4px 12px;font-family:var(--mono);font-size:12.5px;font-weight:500;margin:4px 6px 0 0}
 
   table.meds{width:100%;border-collapse:collapse;margin-top:6px}
   table.meds th{font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--ink-soft);
@@ -57,6 +74,7 @@
   table.meds td{padding:8px 8px;border-bottom:1px solid var(--line);vertical-align:middle}
   table.meds td input,table.meds td select{margin:0}
   .row-sub{font-family:var(--mono);font-size:13px;color:var(--ink-soft);white-space:nowrap;text-align:right}
+  .row-unit{font-size:11px;color:var(--ink-soft);white-space:nowrap}
   .btn-mini{background:none;border:1px solid var(--line);border-radius:6px;color:var(--danger);
     width:30px;height:30px;cursor:pointer;font-size:15px;line-height:1}
   .btn-mini:hover{background:var(--danger-bg)}
@@ -94,6 +112,8 @@
   .btn-ghost{background:none;border:1px solid var(--line);color:var(--ink-soft)}
   .btn-ghost:hover{border-color:var(--ink-soft)}
 
+  .autosave{font-family:var(--mono);font-size:11px;color:var(--ink-soft);margin-top:10px}
+
   .foot-note{font-size:11.5px;color:var(--ink-soft);margin-top:28px;border-top:1px solid var(--line);padding-top:14px}
   .foot-note strong{color:var(--ink)}
   .refs{font-size:11px;color:var(--ink-soft);margin-top:8px}
@@ -127,19 +147,74 @@
 <!-- ============================ APP ============================ -->
 <div class="no-print">
 <header class="app">
-  <div class="eyebrow">Doença de Parkinson avançada · Infusão subcutânea contínua</div>
-  <h1>Calculadora de Infusão <span>Foslevodopa/Foscarbidopa</span></h1>
-  <p class="sub">Conversão da terapia oral com levodopa (± inibidor da COMT) para taxas de infusão, dose de ataque e dose extra (bolus), conforme bula (FDA rev. 03/2026 · EMA/Produodopa) e recomendações de consenso de especialistas (Aldred et al., 2024). Solução: 240&nbsp;mg foslevodopa + 12&nbsp;mg foscarbidopa por mL.</p>
+  <div class="eyebrow">Doença de Parkinson avançada · Ferramenta de apoio à decisão</div>
+  <h1>Foslevodopa/Foscarbidopa <span>· Infusão + LEDD</span></h1>
+  <p class="sub">Conversão da terapia oral para infusão subcutânea contínua (bula FDA rev. 03/2026 · EMA/Produodopa · Aldred et al., 2024) e cálculo da dose equivalente de levodopa (LEDD) conforme as recomendações atualizadas da MDS (Jost et al., <em>Mov Disord</em> 2023). Os dados são salvos automaticamente neste navegador.</p>
 </header>
 
+<nav class="tabs" role="tablist">
+  <button type="button" id="tab-btn-inf" class="active" data-tab="inf"><span class="t-ico">Bomba</span>Infusão</button>
+  <button type="button" id="tab-btn-ledd" data-tab="ledd"><span class="t-ico">Σ mg/dia</span>LEDD total</button>
+  <button type="button" id="tab-btn-pt" data-tab="pt"><span class="t-ico">Registro</span>Paciente</button>
+</nav>
+
+<!-- ==================== ABA PACIENTE ==================== -->
+<div class="tab-pane" id="pane-pt">
+<section class="card">
+  <h2>Dados do paciente</h2>
+  <p class="hint">Idade e tempo de doença são calculados automaticamente e incluídos no relatório impresso. Nenhum dado sai deste navegador.</p>
+  <div class="grid g2">
+    <div><label for="pt-name">Nome do paciente</label><input type="text" id="pt-name" placeholder="Nome completo"></div>
+    <div><label for="pt-record">Registro / prontuário</label><input type="text" id="pt-record" placeholder="Opcional"></div>
+    <div><label for="pt-birth">Data de nascimento</label><input type="date" id="pt-birth"></div>
+    <div><label for="pt-dx">Data do diagnóstico de DP</label><input type="date" id="pt-dx"></div>
+    <div><label for="md-name">Médico prescritor</label><input type="text" id="md-name" placeholder="Nome e CRM"></div>
+  </div>
+  <div id="pt-chips" style="margin-top:12px"></div>
+</section>
+</div>
+
+<!-- ==================== ABA LEDD ==================== -->
+<div class="tab-pane" id="pane-ledd">
+<section class="card">
+  <h2>Medicações antiparkinsonianas em uso</h2>
+  <p class="hint">Informe a <strong>dose diária total</strong> de cada fármaco. Fatores de conversão conforme Jost&nbsp;et&nbsp;al., <em>Mov&nbsp;Disord</em> 2023 (recomendações da MDS). Inibidores da COMT e istradefilina são calculados automaticamente sobre a LED de levodopa.</p>
+  <table class="meds" id="ledd-table">
+    <thead><tr>
+      <th style="width:46%">Fármaco</th>
+      <th>Dose diária</th>
+      <th style="text-align:right">LED (mg)</th>
+      <th></th>
+    </tr></thead>
+    <tbody id="ledd-body"></tbody>
+  </table>
+  <button class="btn-add" id="ledd-add" type="button">+ Adicionar fármaco</button>
+</section>
+
+<div class="pump">
+  <div class="p-label">LEDD total</div>
+  <div class="p-main">
+    <span class="p-value" id="ledd-total">—</span>
+    <span class="p-unit">mg/dia</span>
+  </div>
+  <div class="p-equiv" id="ledd-note">Adicione as medicações para calcular</div>
+</div>
+
+<section class="card">
+  <h2>Detalhamento por classe</h2>
+  <table class="results-table"><tbody id="ledd-breakdown">
+    <tr><td class="muted" colspan="2">Aguardando dados…</td></tr>
+  </tbody></table>
+  <div class="alert warn" id="ledd-alert"></div>
+</section>
+</div>
+
+<!-- ==================== ABA INFUSÃO ==================== -->
+<div class="tab-pane active" id="pane-inf">
 <!-- PASSO 1 -->
 <section class="card">
-  <h2><span class="step">PASSO 1</span> Identificação e regime</h2>
-  <p class="hint">Dados usados apenas no relatório impresso.</p>
+  <h2><span class="step">PASSO 1</span> Regime de infusão</h2>
   <div class="grid g2">
-    <div><label for="pt-name">Paciente</label><input type="text" id="pt-name" placeholder="Nome do paciente"></div>
-    <div><label for="pt-record">Registro / prontuário</label><input type="text" id="pt-record" placeholder="Opcional"></div>
-    <div><label for="md-name">Médico prescritor</label><input type="text" id="md-name" value=""></div>
     <div>
       <label for="regimen">Regime de infusão</label>
       <select id="regimen">
@@ -253,11 +328,13 @@
   <div class="alert warn" id="alert-fda"></div>
   <div class="alert danger" id="alert-ema"></div>
 </section>
+</div><!-- /pane-inf -->
 
 <div class="actions">
   <button class="btn btn-primary" id="btn-pdf" type="button">Exportar relatório em PDF</button>
-  <button class="btn btn-ghost" id="btn-reset" type="button">Limpar</button>
+  <button class="btn btn-ghost" id="btn-reset" type="button">Limpar tudo</button>
 </div>
+<div class="autosave" id="autosave-note"></div>
 
 <div class="foot-note">
   <strong>Ferramenta de apoio à decisão para uso por médico especialista.</strong> Os resultados não substituem o julgamento clínico nem a consulta à bula aprovada localmente (ANVISA). A titulação subsequente deve maximizar o tempo "on" sem discinesia incômoda, em incrementos de 0,01&nbsp;mL/h (≈ 1,7&nbsp;mg de levodopa/h). Suspender inibidores da COMT ao iniciar a infusão; IMAO não seletivos são contraindicados. Prescrever levodopa/carbidopa oral de resgate para eventuais interrupções. Avaliar vitamina B6 antes e durante o tratamento.
@@ -265,6 +342,7 @@
     <li>VYALEV™ (foscarbidopa/foslevodopa) — Full Prescribing Information, FDA, rev. 03/2026.</li>
     <li>PRODUODOPA® — EMA SmPC (dose máx. europeia: 6.000 mg foslevodopa/dia).</li>
     <li>Aldred J, et al. Continuous subcutaneous foslevodopa/foscarbidopa infusion: considerations for initiation and maintenance. Clin Park Relat Disord. 2024;10:100239.</li>
+    <li>Jost ST, Kaldenbach MA, Antonini A, et al. Levodopa dose equivalency in Parkinson's disease: updated systematic review and proposals. Mov Disord. 2023;38(7):1236-1252.</li>
   </ul>
 </div>
 </div><!-- /no-print -->
@@ -278,6 +356,7 @@
 (function(){
   "use strict";
 
+  /* ==================== CONSTANTES — INFUSÃO ==================== */
   var FORMS = [
     {id:"ir-cd",  label:"Levodopa/carbidopa IR",                         f:1.00},
     {id:"ir-bz",  label:"Levodopa/benserazida IR",                       f:1.00},
@@ -291,15 +370,212 @@
   var MAX_FDA = 3525;      // mg foslevodopa/dia (FDA)
   var MAX_EMA = 6000;      // mg foslevodopa/dia (EMA)
 
+  /* ==================== CONSTANTES — LEDD (Jost et al. 2023) ==================== */
+  /* mode: dd = dose diária × fator | fixed = LED fixa | perdose = 100 mg × tomadas eficazes/dia
+     comt = LED de levodopa × fator | istra = (LED levodopa + LED COMT) × fator
+     isLD marca fármacos com levodopa (base para COMT/istradefilina) */
+  var LEDD_DRUGS = [
+    {id:"ld-ir",    cls:"Levodopa", label:"Levodopa IR (carbidopa ou benserazida)",             mode:"dd", f:1,      isLD:true},
+    {id:"ld-dr",    cls:"Levodopa", label:"Levodopa dual-release (Madopar® DR)",                 mode:"dd", f:0.85,   isLD:true},
+    {id:"ld-cr",    cls:"Levodopa", label:"Levodopa CR (liberação controlada)",                  mode:"dd", f:0.75,   isLD:true},
+    {id:"ld-er",    cls:"Levodopa", label:"Levodopa ER (Rytary®/IPX066)",                        mode:"dd", f:0.5,    isLD:true},
+    {id:"ld-inal",  cls:"Levodopa", label:"Levodopa inalada (cápsulas)",                         mode:"dd", f:0.69,   isLD:true},
+    {id:"lcig",     cls:"Levodopa", label:"Gel intestinal levodopa/carbidopa (LCIG/Duodopa®)",   mode:"dd", f:1.11,   isLD:true},
+    {id:"lecig-m",  cls:"Levodopa", label:"LECIG (Lecigon®) — dose matinal",                     mode:"dd", f:1.11,   isLD:true},
+    {id:"lecig-c",  cls:"Levodopa", label:"LECIG (Lecigon®) — manutenção + doses extras",        mode:"dd", f:1.46,   isLD:true},
+    {id:"foslev",   cls:"Levodopa", label:"Foslevodopa/foscarbidopa SC (mg foslevodopa/dia)",    mode:"dd", f:0.75,   isLD:true},
+    {id:"entaca",   cls:"Inibidor da COMT", label:"Entacapona (com as doses de levodopa)",       mode:"comt", f:0.33},
+    {id:"tolca",    cls:"Inibidor da COMT", label:"Tolcapona",                                   mode:"comt", f:0.5},
+    {id:"opica",    cls:"Inibidor da COMT", label:"Opicapona 50 mg/dia",                         mode:"comt", f:0.5},
+    {id:"seleg-o",  cls:"Inibidor da MAO-B", label:"Selegilina oral",                            mode:"dd", f:10},
+    {id:"seleg-sl", cls:"Inibidor da MAO-B", label:"Selegilina sublingual",                      mode:"dd", f:80},
+    {id:"rasag",    cls:"Inibidor da MAO-B", label:"Rasagilina",                                 mode:"dd", f:100},
+    {id:"safin",    cls:"Inibidor da MAO-B", label:"Safinamida 50–100 mg/dia",                   mode:"fixed", led:150},
+    {id:"zonis",    cls:"Inibidor da MAO-B", label:"Zonisamida 25–50 mg/dia (validada no Japão)",mode:"fixed", led:100},
+    {id:"prami-s",  cls:"Agonista dopaminérgico", label:"Pramipexol (sal) IR ou ER",             mode:"dd", f:100},
+    {id:"prami-b",  cls:"Agonista dopaminérgico", label:"Pramipexol (base) IR ou ER",            mode:"dd", f:142.86},
+    {id:"ropin",    cls:"Agonista dopaminérgico", label:"Ropinirol",                             mode:"dd", f:20},
+    {id:"rotig",    cls:"Agonista dopaminérgico", label:"Rotigotina (adesivo)",                  mode:"dd", f:30.3},
+    {id:"pirib",    cls:"Agonista dopaminérgico", label:"Piribedil",                             mode:"dd", f:1},
+    {id:"apo-sc",   cls:"Agonista dopaminérgico", label:"Apomorfina subcutânea",                 mode:"dd", f:10},
+    {id:"apo-sl",   cls:"Agonista dopaminérgico", label:"Apomorfina sublingual",                 mode:"dd", f:1.5},
+    {id:"lisur",    cls:"Agonista dopaminérgico", label:"Lisurida",                              mode:"dd", f:100},
+    {id:"bromo",    cls:"Agonista dopaminérgico", label:"Bromocriptina",                         mode:"dd", f:10},
+    {id:"pergo",    cls:"Agonista dopaminérgico", label:"Pergolida",                             mode:"dd", f:100},
+    {id:"caber",    cls:"Agonista dopaminérgico", label:"Cabergolina",                           mode:"dd", f:66.67},
+    {id:"dhec",     cls:"Agonista dopaminérgico", label:"Di-hidroergocriptina (DHEC)",           mode:"dd", f:5},
+    {id:"amant-ir", cls:"Outros", label:"Amantadina IR",                                         mode:"dd", f:1},
+    {id:"amant-er", cls:"Outros", label:"Amantadina ER (Gocovri®/ADS-5102)",                     mode:"dd", f:1.25},
+    {id:"amant-ie", cls:"Outros", label:"Amantadina IR/ER (Osmolex® ER/OS320)",                  mode:"dd", f:1},
+    {id:"trihex",   cls:"Outros", label:"Triexifenidil (tomadas eficazes/dia)",                  mode:"perdose", f:100},
+    {id:"istra",    cls:"Outros", label:"Istradefilina 20–40 mg/dia",                            mode:"istra", f:0.2}
+  ];
+  var LEDD_CLASSES = ["Levodopa","Inibidor da COMT","Inibidor da MAO-B","Agonista dopaminérgico","Outros"];
+  var STORE_KEY = "foslevo-app-v2";
+
   var $ = function(id){ return document.getElementById(id); };
   var medsBody = $("meds-body");
+  var leddBody = $("ledd-body");
 
   function fmt(n, dec){
     if (!isFinite(n)) return "—";
     return n.toLocaleString("pt-BR",{minimumFractionDigits:dec,maximumFractionDigits:dec});
   }
   function round2(n){ return Math.round(n*100)/100; }
+  function esc(s){ var d=document.createElement("div"); d.textContent=s; return d.innerHTML; }
+  function drugById(id){ return LEDD_DRUGS.filter(function(d){return d.id===id;})[0]; }
 
+  /* ==================== ABAS ==================== */
+  var tabButtons = document.querySelectorAll("nav.tabs button");
+  function showTab(tab){
+    tabButtons.forEach(function(b){ b.classList.toggle("active", b.dataset.tab===tab); });
+    ["inf","ledd","pt"].forEach(function(t){
+      $("pane-"+t).classList.toggle("active", t===tab);
+    });
+    saveState();
+  }
+  tabButtons.forEach(function(b){
+    b.addEventListener("click", function(){ showTab(b.dataset.tab); });
+  });
+  function activeTab(){
+    var b = document.querySelector("nav.tabs button.active");
+    return b ? b.dataset.tab : "inf";
+  }
+
+  /* ==================== PACIENTE ==================== */
+  function yearsSince(dateStr){
+    if (!dateStr) return null;
+    var d = new Date(dateStr+"T00:00:00");
+    if (isNaN(d)) return null;
+    var now = new Date();
+    var y = (now - d) / (365.25*24*3600*1000);
+    return y >= 0 ? y : null;
+  }
+  function patientInfo(){
+    var age = yearsSince($("pt-birth").value);
+    var dur = yearsSince($("pt-dx").value);
+    return {
+      name: $("pt-name").value,
+      record: $("pt-record").value,
+      md: $("md-name").value,
+      age: age !== null ? Math.floor(age) : null,
+      dur: dur
+    };
+  }
+  function renderPatient(){
+    var p = patientInfo();
+    var h = "";
+    if (p.age !== null) h += '<span class="chip">Idade: '+p.age+' anos</span>';
+    if (p.dur !== null) h += '<span class="chip">Tempo de doença: '+fmt(p.dur,1)+' anos</span>';
+    if (!h) h = '<span class="muted">Preencha as datas para calcular idade e tempo de doença.</span>';
+    $("pt-chips").innerHTML = h;
+  }
+
+  /* ==================== LEDD ==================== */
+  function leddSelectHtml(selId){
+    var h = '<select class="l-drug">';
+    LEDD_CLASSES.forEach(function(cls){
+      h += '<optgroup label="'+cls+'">';
+      LEDD_DRUGS.forEach(function(d){
+        if (d.cls===cls) h += '<option value="'+d.id+'"'+(d.id===selId?" selected":"")+'>'+d.label+'</option>';
+      });
+      h += '</optgroup>';
+    });
+    return h+'</select>';
+  }
+
+  function leddRowConfig(tr){
+    var d = drugById(tr.querySelector(".l-drug").value);
+    var inp = tr.querySelector(".l-dose");
+    var unit = tr.querySelector(".l-unit");
+    if (d.mode==="dd"){
+      inp.disabled=false; inp.placeholder="mg"; unit.textContent="mg/dia";
+    } else if (d.mode==="perdose"){
+      inp.disabled=false; inp.placeholder="n"; unit.textContent="tomadas/dia";
+    } else if (d.mode==="fixed"){
+      inp.disabled=true; inp.value=""; inp.placeholder="—"; unit.textContent="LED fixa";
+    } else { // comt, istra
+      inp.disabled=true; inp.value=""; inp.placeholder="—"; unit.textContent="auto (× LED levodopa)";
+    }
+  }
+
+  function addLeddRow(drugId, val){
+    var tr = document.createElement("tr");
+    tr.innerHTML =
+      '<td>'+leddSelectHtml(drugId||"ld-ir")+'</td>'+
+      '<td><input type="number" class="l-dose" min="0" step="any" value="'+(val!=null?val:"")+'"> <span class="row-unit l-unit"></span></td>'+
+      '<td class="row-sub l-sub">—</td>'+
+      '<td><button class="btn-mini" type="button" title="Remover">×</button></td>';
+    tr.querySelector(".btn-mini").addEventListener("click", function(){ tr.remove(); calcLedd(); });
+    tr.querySelector(".l-drug").addEventListener("change", function(){ leddRowConfig(tr); calcLedd(); });
+    tr.querySelector(".l-dose").addEventListener("input", calcLedd);
+    leddBody.appendChild(tr);
+    leddRowConfig(tr);
+  }
+
+  function calcLedd(){
+    var rows = [];
+    leddBody.querySelectorAll("tr").forEach(function(tr){
+      rows.push({tr:tr, drug:drugById(tr.querySelector(".l-drug").value),
+                 val:parseFloat(tr.querySelector(".l-dose").value)||0});
+    });
+
+    // 1ª passada: LED da levodopa e demais fármacos de fator direto
+    var ldLED = 0;
+    rows.forEach(function(r){
+      var d = r.drug;
+      if (d.mode==="dd"){ r.led = r.val*d.f; if (d.isLD) ldLED += r.led; }
+      else if (d.mode==="perdose"){ r.led = r.val*d.f; }
+      else if (d.mode==="fixed"){ r.led = d.led; }
+      else r.led = 0;
+    });
+    // 2ª passada: COMT sobre a LED de levodopa
+    var comtLED = 0;
+    rows.forEach(function(r){
+      if (r.drug.mode==="comt"){ r.led = ldLED*r.drug.f; comtLED += r.led; }
+    });
+    // 3ª passada: istradefilina sobre (levodopa + COMT)
+    rows.forEach(function(r){
+      if (r.drug.mode==="istra"){ r.led = (ldLED+comtLED)*r.drug.f; }
+    });
+
+    var total = 0, byClass = {};
+    rows.forEach(function(r){
+      total += r.led;
+      byClass[r.drug.cls] = (byClass[r.drug.cls]||0) + r.led;
+      r.tr.querySelector(".l-sub").textContent = r.led>0 ? fmt(r.led,0) : "—";
+    });
+
+    if (total>0){
+      $("ledd-total").textContent = fmt(total,0);
+      $("ledd-note").textContent = "LED levodopa "+fmt(ldLED,0)+" mg"+(comtLED>0?" · LED COMT "+fmt(comtLED,0)+" mg":"");
+      var h = "";
+      LEDD_CLASSES.forEach(function(cls){
+        if (byClass[cls]>0) h += '<tr><td>'+cls+'</td><td>'+fmt(byClass[cls],0)+' mg</td></tr>';
+      });
+      h += '<tr class="total"><td>LEDD total</td><td>'+fmt(total,0)+' mg/dia</td></tr>';
+      $("ledd-breakdown").innerHTML = h;
+    } else {
+      $("ledd-total").textContent = "—";
+      $("ledd-note").textContent = "Adicione as medicações para calcular";
+      $("ledd-breakdown").innerHTML = '<tr><td class="muted" colspan="2">Aguardando dados…</td></tr>';
+    }
+
+    var al = $("ledd-alert");
+    var notes = [];
+    rows.forEach(function(r){
+      if (r.drug.id==="zonis" && r.led>0) notes.push("Zonisamida: fórmula validada apenas em coortes japonesas — não aplicar fora do Japão.");
+      if (r.drug.id==="trihex" && r.led>0) notes.push("Triexifenidil: contar apenas tomadas com melhora clinicamente relevante (≥ 5 pontos no UPDRS-III); cada tomada eficaz = 100 mg LED.");
+    });
+    if (notes.length){ al.innerHTML = "⚠ "+notes.join("<br>⚠ "); al.classList.add("show"); }
+    else al.classList.remove("show");
+
+    window.__ledd = {total:total, ldLED:ldLED, comtLED:comtLED, byClass:byClass,
+      rows:rows.filter(function(r){return r.led>0;}).map(function(r){return {label:r.drug.label, cls:r.drug.cls, val:r.val, led:r.led, mode:r.drug.mode, f:r.drug.f};})};
+    saveState();
+  }
+
+  /* ==================== INFUSÃO ==================== */
   function addRow(dose, times, formId){
     var tr = document.createElement("tr");
     var sel = '<select class="m-form">';
@@ -376,6 +652,7 @@
     }
     render(out);
     window.__calc = out;
+    saveState();
   }
 
   function render(o){
@@ -424,85 +701,179 @@
     }
   }
 
-  /* ------------------- RELATÓRIO / PDF ------------------- */
-  function esc(s){ var d=document.createElement("div"); d.textContent=s; return d.innerHTML; }
+  /* ==================== AUTOSAVE (localStorage) ==================== */
+  var saveTimer = null;
+  function saveState(){
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(function(){
+      try{
+        var meds = [];
+        medsBody.querySelectorAll("tr").forEach(function(tr){
+          meds.push({form:tr.querySelector(".m-form").value,
+                     dose:tr.querySelector(".m-dose").value,
+                     times:tr.querySelector(".m-times").value});
+        });
+        var ledd = [];
+        leddBody.querySelectorAll("tr").forEach(function(tr){
+          ledd.push({drug:tr.querySelector(".l-drug").value,
+                     val:tr.querySelector(".l-dose").value});
+        });
+        var st = {
+          tab: activeTab(),
+          patient: {name:$("pt-name").value, record:$("pt-record").value, md:$("md-name").value,
+                    birth:$("pt-birth").value, dx:$("pt-dx").value},
+          inf: {regimen:$("regimen").value, awake:$("awake").value, comt:$("comt").value,
+                morning:$("morning").value, extra:$("extra").value,
+                highPct:$("high-pct").value, lowPct:$("low-pct").value, meds:meds},
+          ledd: ledd
+        };
+        localStorage.setItem(STORE_KEY, JSON.stringify(st));
+        var now = new Date();
+        $("autosave-note").textContent = "Salvo automaticamente neste navegador às "+
+          now.toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit",second:"2-digit"});
+      }catch(e){/* armazenamento indisponível — segue sem salvar */}
+    }, 250);
+  }
 
-  function buildReport(){
-    var o = window.__calc;
-    if (!o || !o.tld){ alert("Preencha as medicações antes de exportar o relatório."); return false; }
-    var now = new Date();
-    var dt = now.toLocaleDateString("pt-BR") + " " + now.toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"});
-    var pt = $("pt-name").value || "________________________________";
-    var rec = $("pt-record").value;
-    var md = $("md-name").value || "________________________________";
-
-    var medRows = "";
-    o.rows.forEach(function(r){
-      if (r.dose>0 && r.times>0){
-        medRows += "<tr><td>"+esc(r.form.label)+"</td><td class='num'>"+fmt(r.dose,0)+" mg</td><td class='num'>"+fmt(r.times,0)+"×/dia</td><td class='num'>×"+fmt(r.form.f,2)+"</td><td class='num'>"+fmt(r.eq,0)+" mg</td></tr>";
-      }
+  function loadState(){
+    var st = null;
+    try{ st = JSON.parse(localStorage.getItem(STORE_KEY)); }catch(e){}
+    if (!st) return false;
+    var p = st.patient||{};
+    $("pt-name").value = p.name||""; $("pt-record").value = p.record||"";
+    $("md-name").value = p.md||""; $("pt-birth").value = p.birth||""; $("pt-dx").value = p.dx||"";
+    var i = st.inf||{};
+    if (i.regimen) $("regimen").value = i.regimen;
+    if (i.awake) $("awake").value = i.awake;
+    if (i.comt) $("comt").value = i.comt;
+    $("morning").value = i.morning||"";
+    if (i.extra) $("extra").value = i.extra;
+    if (i.highPct) $("high-pct").value = i.highPct;
+    if (i.lowPct) $("low-pct").value = i.lowPct;
+    (i.meds && i.meds.length ? i.meds : [{form:"ir-cd"}]).forEach(function(m){
+      addRow(m.dose||"", m.times||"", m.form||"ir-cd");
     });
-    var comtTxt = o.comtF>1 ? "Sim — fator ×"+fmt(o.comtF,2)+" aplicado (suspender ao iniciar a infusão)" : "Não";
-
-    var maxAlert = "";
-    if (o.foslevDay > MAX_EMA) maxAlert = "<div class='r-alert'>DOSE ACIMA DO MÁXIMO DA BULA EUROPEIA (6.000 mg foslevodopa/dia). Revisar antes de prescrever.</div>";
-    else if (o.foslevDay > MAX_FDA) maxAlert = "<div class='r-alert'>Dose acima do máximo da bula FDA (3.525 mg foslevodopa/dia ≈ 2.500 mg levodopa). Bula europeia admite até 6.000 mg/dia — conferir bula ANVISA.</div>";
-
-    $("report").innerHTML =
-      "<div class='r-head'>"+
-        "<h1>Prescrição de infusão subcutânea contínua — Foslevodopa/Foscarbidopa (240 mg + 12 mg/mL)</h1>"+
-        "<div class='r-meta'>Paciente: <strong>"+esc(pt)+"</strong>"+(rec?" · Registro: "+esc(rec):"")+" &nbsp;|&nbsp; Data: "+dt+"</div>"+
-      "</div>"+
-
-      "<h3>1. Terapia oral de origem (período de vigília: "+fmt(o.awake,0)+" h)</h3>"+
-      "<table><tr><th>Formulação</th><th>Dose LD/tomada</th><th>Tomadas</th><th>Fator</th><th>Equiv. LD-IR</th></tr>"+medRows+
-      "<tr><td colspan='4'><strong>Inibidor da COMT separado: "+comtTxt+"</strong></td><td class='num'><strong>TLD = "+fmt(o.tld,0)+" mg</strong></td></tr></table>"+
-
-      "<h3>2. Parâmetros de programação da bomba</h3>"+
-      "<div class='r-main'>"+
-        "<div>Taxa basal contínua<br><span class='big'>"+fmt(o.base,2)+" mL/h</span><br>≈ "+fmt(o.baseMgH,0)+" mg foslevodopa/h (≈ "+fmt(o.baseLdH,0)+" mg levodopa/h)</div>"+
-        "<div>Taxa baixa (−"+fmt(o.lowPct,0)+"%)<br><span class='big'>"+fmt(o.low,2)+" mL/h</span></div>"+
-        "<div>Taxa alta (+"+fmt(o.highPct,0)+"%)<br><span class='big'>"+fmt(o.high,2)+" mL/h</span></div>"+
-      "</div>"+
-      "<table>"+
-        "<tr><td>Regime</td><td class='num'>"+(o.regimen==="24"?"Contínuo 24 h/dia":"Vigília ("+fmt(o.awake,0)+" h/dia)")+"</td></tr>"+
-        (o.load?"<tr><td>Dose de ataque (se início em \"off\" ou interrupção &gt; 3 h) — calculada da 1ª dose matinal de "+fmt(o.morning,0)+" mg LD</td><td class='num'>"+fmt(o.load,1)+" mL</td></tr>":"")+
-        "<tr><td>Dose extra (bolus) — máx. 1/hora; se ≥ 2/dia, reavaliar taxa basal</td><td class='num'>"+fmt(o.extra,2)+" mL (≈ "+fmt(o.extraLd,1)+" mg LD)</td></tr>"+
-        "<tr><td>Incremento de titulação</td><td class='num'>0,01 mL/h (≈ 1,7 mg LD/h)</td></tr>"+
-        "<tr><td><strong>Total diário na taxa basal ("+fmt(o.hours,0)+" h)</strong></td><td class='num'><strong>"+fmt(o.volDay,1)+" mL · "+fmt(o.foslevDay,0)+" mg foslevodopa · ≈ "+fmt(o.ldDayEquiv,0)+" mg LD</strong></td></tr>"+
-      "</table>"+maxAlert+
-
-      "<h3>3. Orientações</h3>"+
-      "<table>"+
-        "<tr><td>Suspender levodopa oral programada e inibidores da COMT ao iniciar a infusão. Manter levodopa/carbidopa IR de resgate para interrupções ≥ 1 h.</td></tr>"+
-        "<tr><td>Sítio abdominal preferencial (evitar raio de 5 cm do umbigo); trocar cânula/sítio a cada 3 dias, distando ≥ 2,5 cm de sítios usados nos últimos 12 dias.</td></tr>"+
-        "<tr><td>Interrupção &gt; 1 h: novo equipo e novo sítio. Interrupção &gt; 3 h: considerar dose de ataque na retomada.</td></tr>"+
-        "<tr><td>Dosar vitamina B6 antes do início e periodicamente. IMAO não seletivos contraindicados. Monitorar alucinações, discinesias, sonolência diurna, transtorno do controle de impulsos e reações no sítio de infusão.</td></tr>"+
-      "</table>"+
-
-      "<div class='r-sign'><div class='line'>"+esc(md)+"</div></div>"+
-
-      "<div class='r-foot'>Cálculo conforme: taxa basal (mL/h) = [(TLD × 1,3) ÷ 240] ÷ horas de vigília. Referências: VYALEV™ Full Prescribing Information (FDA, rev. 03/2026); PRODUODOPA® SmPC (EMA); Aldred J, et al. Clin Park Relat Disord. 2024;10:100239. Documento gerado por ferramenta de apoio à decisão; a prescrição final é de responsabilidade do médico assistente, observada a bula aprovada pela ANVISA.</div>";
+    (st.ledd||[]).forEach(function(r){
+      if (drugById(r.drug)) addLeddRow(r.drug, r.val||"");
+    });
+    if (st.tab) showTab(st.tab);
     return true;
   }
 
+  /* ==================== RELATÓRIO / PDF ==================== */
+  function buildReport(){
+    var o = window.__calc||{};
+    var L = window.__ledd||{};
+    if ((!o.tld) && (!L.total)){ alert("Preencha as medicações (infusão ou LEDD) antes de exportar o relatório."); return false; }
+    var now = new Date();
+    var dt = now.toLocaleDateString("pt-BR") + " " + now.toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit"});
+    var p = patientInfo();
+    var pt = p.name || "________________________________";
+    var md = p.md || "________________________________";
+    var demog = [];
+    if (p.record) demog.push("Registro: "+esc(p.record));
+    if (p.age !== null) demog.push("Idade: "+p.age+" anos");
+    if (p.dur !== null) demog.push("Tempo de doença: "+fmt(p.dur,1)+" anos");
+
+    var html =
+      "<div class='r-head'>"+
+        "<h1>"+(o.tld?"Prescrição de infusão subcutânea contínua — Foslevodopa/Foscarbidopa (240 mg + 12 mg/mL)":"Dose equivalente diária de levodopa (LEDD)")+"</h1>"+
+        "<div class='r-meta'>Paciente: <strong>"+esc(pt)+"</strong>"+(demog.length?" · "+demog.join(" · "):"")+" &nbsp;|&nbsp; Data: "+dt+"</div>"+
+      "</div>";
+
+    if (o.tld){
+      var medRows = "";
+      o.rows.forEach(function(r){
+        if (r.dose>0 && r.times>0){
+          medRows += "<tr><td>"+esc(r.form.label)+"</td><td class='num'>"+fmt(r.dose,0)+" mg</td><td class='num'>"+fmt(r.times,0)+"×/dia</td><td class='num'>×"+fmt(r.form.f,2)+"</td><td class='num'>"+fmt(r.eq,0)+" mg</td></tr>";
+        }
+      });
+      var comtTxt = o.comtF>1 ? "Sim — fator ×"+fmt(o.comtF,2)+" aplicado (suspender ao iniciar a infusão)" : "Não";
+
+      var maxAlert = "";
+      if (o.foslevDay > MAX_EMA) maxAlert = "<div class='r-alert'>DOSE ACIMA DO MÁXIMO DA BULA EUROPEIA (6.000 mg foslevodopa/dia). Revisar antes de prescrever.</div>";
+      else if (o.foslevDay > MAX_FDA) maxAlert = "<div class='r-alert'>Dose acima do máximo da bula FDA (3.525 mg foslevodopa/dia ≈ 2.500 mg levodopa). Bula europeia admite até 6.000 mg/dia — conferir bula ANVISA.</div>";
+
+      html +=
+        "<h3>1. Terapia oral de origem (período de vigília: "+fmt(o.awake,0)+" h)</h3>"+
+        "<table><tr><th>Formulação</th><th>Dose LD/tomada</th><th>Tomadas</th><th>Fator</th><th>Equiv. LD-IR</th></tr>"+medRows+
+        "<tr><td colspan='4'><strong>Inibidor da COMT separado: "+comtTxt+"</strong></td><td class='num'><strong>TLD = "+fmt(o.tld,0)+" mg</strong></td></tr></table>"+
+
+        "<h3>2. Parâmetros de programação da bomba</h3>"+
+        "<div class='r-main'>"+
+          "<div>Taxa basal contínua<br><span class='big'>"+fmt(o.base,2)+" mL/h</span><br>≈ "+fmt(o.baseMgH,0)+" mg foslevodopa/h (≈ "+fmt(o.baseLdH,0)+" mg levodopa/h)</div>"+
+          "<div>Taxa baixa (−"+fmt(o.lowPct,0)+"%)<br><span class='big'>"+fmt(o.low,2)+" mL/h</span></div>"+
+          "<div>Taxa alta (+"+fmt(o.highPct,0)+"%)<br><span class='big'>"+fmt(o.high,2)+" mL/h</span></div>"+
+        "</div>"+
+        "<table>"+
+          "<tr><td>Regime</td><td class='num'>"+(o.regimen==="24"?"Contínuo 24 h/dia":"Vigília ("+fmt(o.awake,0)+" h/dia)")+"</td></tr>"+
+          (o.load?"<tr><td>Dose de ataque (se início em \"off\" ou interrupção &gt; 3 h) — calculada da 1ª dose matinal de "+fmt(o.morning,0)+" mg LD</td><td class='num'>"+fmt(o.load,1)+" mL</td></tr>":"")+
+          "<tr><td>Dose extra (bolus) — máx. 1/hora; se ≥ 2/dia, reavaliar taxa basal</td><td class='num'>"+fmt(o.extra,2)+" mL (≈ "+fmt(o.extraLd,1)+" mg LD)</td></tr>"+
+          "<tr><td>Incremento de titulação</td><td class='num'>0,01 mL/h (≈ 1,7 mg LD/h)</td></tr>"+
+          "<tr><td><strong>Total diário na taxa basal ("+fmt(o.hours,0)+" h)</strong></td><td class='num'><strong>"+fmt(o.volDay,1)+" mL · "+fmt(o.foslevDay,0)+" mg foslevodopa · ≈ "+fmt(o.ldDayEquiv,0)+" mg LD</strong></td></tr>"+
+        "</table>"+maxAlert;
+    }
+
+    if (L.total){
+      var lr = "";
+      L.rows.forEach(function(r){
+        var doseTxt = r.mode==="dd" ? fmt(r.val,r.val<10?2:0)+" mg/dia"
+          : r.mode==="perdose" ? fmt(r.val,0)+" tomadas/dia"
+          : r.mode==="fixed" ? "dose aprovada" : "—";
+        lr += "<tr><td>"+esc(r.label)+"</td><td>"+esc(r.cls)+"</td><td class='num'>"+doseTxt+"</td><td class='num'>"+fmt(r.led,0)+" mg</td></tr>";
+      });
+      html +=
+        "<h3>"+(o.tld?"3. ":"1. ")+"Dose equivalente diária de levodopa (LEDD) — Jost et al., Mov Disord 2023</h3>"+
+        "<table><tr><th>Fármaco</th><th>Classe</th><th>Dose</th><th>LED</th></tr>"+lr+
+        "<tr><td colspan='3'><strong>LEDD total</strong></td><td class='num'><strong>"+fmt(L.total,0)+" mg/dia</strong></td></tr></table>";
+    }
+
+    if (o.tld){
+      html +=
+        "<h3>"+(L.total?"4":"3")+". Orientações</h3>"+
+        "<table>"+
+          "<tr><td>Suspender levodopa oral programada e inibidores da COMT ao iniciar a infusão. Manter levodopa/carbidopa IR de resgate para interrupções ≥ 1 h.</td></tr>"+
+          "<tr><td>Sítio abdominal preferencial (evitar raio de 5 cm do umbigo); trocar cânula/sítio a cada 3 dias, distando ≥ 2,5 cm de sítios usados nos últimos 12 dias.</td></tr>"+
+          "<tr><td>Interrupção &gt; 1 h: novo equipo e novo sítio. Interrupção &gt; 3 h: considerar dose de ataque na retomada.</td></tr>"+
+          "<tr><td>Dosar vitamina B6 antes do início e periodicamente. IMAO não seletivos contraindicados. Monitorar alucinações, discinesias, sonolência diurna, transtorno do controle de impulsos e reações no sítio de infusão.</td></tr>"+
+        "</table>";
+    }
+
+    html +=
+      "<div class='r-sign'><div class='line'>"+esc(md)+"</div></div>"+
+      "<div class='r-foot'>Cálculo da infusão: taxa basal (mL/h) = [(TLD × 1,3) ÷ 240] ÷ horas de vigília. LEDD conforme Jost ST, et al. Mov Disord. 2023;38(7):1236-1252. Demais referências: VYALEV™ Full Prescribing Information (FDA, rev. 03/2026); PRODUODOPA® SmPC (EMA); Aldred J, et al. Clin Park Relat Disord. 2024;10:100239. Documento gerado por ferramenta de apoio à decisão; a prescrição final é de responsabilidade do médico assistente, observada a bula aprovada pela ANVISA.</div>";
+
+    $("report").innerHTML = html;
+    return true;
+  }
+
+  /* ==================== EVENTOS ==================== */
   $("btn-pdf").addEventListener("click", function(){
     if (buildReport()) window.print();
   });
   $("btn-reset").addEventListener("click", function(){
-    medsBody.innerHTML = "";
-    addRow("","","ir-cd");
-    ["pt-name","pt-record","morning"].forEach(function(id){ $(id).value=""; });
+    if (!confirm("Limpar todos os dados (paciente, LEDD e infusão)?")) return;
+    try{ localStorage.removeItem(STORE_KEY); }catch(e){}
+    medsBody.innerHTML = ""; addRow("","","ir-cd");
+    leddBody.innerHTML = "";
+    ["pt-name","pt-record","md-name","pt-birth","pt-dx","morning"].forEach(function(id){ $(id).value=""; });
     $("comt").value="1"; $("awake").value=16; $("regimen").value="24";
     $("high-pct").value=20; $("low-pct").value=20; $("extra").value="0.20";
-    calc();
+    renderPatient(); calcLedd(); calc();
   });
   $("add-row").addEventListener("click", function(){ addRow("","","ir-cd"); });
+  $("ledd-add").addEventListener("click", function(){ addLeddRow(); calcLedd(); });
   ["awake","regimen","comt","morning","extra","high-pct","low-pct"].forEach(function(id){
     $(id).addEventListener("input", calc);
   });
+  ["pt-name","pt-record","md-name","pt-birth","pt-dx"].forEach(function(id){
+    $(id).addEventListener("input", function(){ renderPatient(); saveState(); });
+  });
 
-  addRow("","","ir-cd");
+  /* ==================== INICIALIZAÇÃO ==================== */
+  if (!loadState()) addRow("","","ir-cd");
+  renderPatient();
+  calcLedd();
   calc();
 })();
 </script>
