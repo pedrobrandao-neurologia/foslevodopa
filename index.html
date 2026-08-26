@@ -114,6 +114,54 @@
 
   .autosave{font-family:var(--mono);font-size:11px;color:var(--ink-soft);margin-top:10px}
 
+  /* ---------- LAUDOS ---------- */
+  .type-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px}
+  .type-card{border:1px solid var(--line);border-radius:8px;padding:12px 14px;background:#fff;cursor:pointer;
+    text-align:left;font-family:var(--sans)}
+  .type-card:hover{border-color:var(--accent)}
+  .type-card.sel{border-color:var(--accent);background:#E8F5F6;box-shadow:inset 0 0 0 1px var(--accent)}
+  .type-card b{display:block;font-size:13.5px;color:var(--ink);margin-bottom:3px}
+  .type-card span{display:block;font-size:11.5px;color:var(--ink-soft);line-height:1.35}
+
+  details.fg{border:1px solid var(--line);border-radius:8px;margin-bottom:10px;background:#fff}
+  details.fg>summary{cursor:pointer;padding:11px 14px;font-size:13.5px;font-weight:600;list-style:none;
+    display:flex;align-items:center;justify-content:space-between;gap:10px}
+  details.fg>summary::-webkit-details-marker{display:none}
+  details.fg>summary::after{content:"▾";color:var(--accent);font-size:11px}
+  details.fg[open]>summary{border-bottom:1px solid var(--line)}
+  details.fg[open]>summary::after{content:"▴"}
+  details.fg .fg-body{padding:14px}
+  .fg-count{font-family:var(--mono);font-size:11px;color:var(--ink-soft);font-weight:400;margin-left:auto}
+  textarea{width:100%;padding:8px 10px;border:1px solid var(--line);border-radius:6px;
+    font-family:var(--sans);font-size:13.5px;color:var(--ink);background:#fff;resize:vertical;min-height:72px}
+  textarea:focus{outline:2px solid var(--accent);outline-offset:1px;border-color:var(--accent)}
+  .w2{grid-column:1/-1}
+  .checks{display:grid;grid-template-columns:1fr 1fr;gap:7px 16px}
+  @media(max-width:640px){.checks{grid-template-columns:1fr}}
+  .checks label{display:flex;gap:8px;align-items:flex-start;font-size:13px;color:var(--ink);font-weight:400;margin:0;cursor:pointer}
+  .checks input{margin-top:2px;accent-color:var(--accent);width:15px;height:15px;flex:none}
+
+  .doc-preview{background:#fff;border:1px solid var(--line);border-radius:10px;padding:28px 32px;
+    font-size:13px;line-height:1.55;max-height:640px;overflow:auto}
+  .doc-preview h1{font-size:17px;margin:0 0 6px;letter-spacing:-.01em}
+  .doc-preview h2{font-size:13.5px;margin:20px 0 6px;text-transform:uppercase;letter-spacing:.04em;
+    border-bottom:1px solid var(--line);padding-bottom:4px;color:var(--accent-deep)}
+  .doc-preview h3{font-size:13px;margin:14px 0 5px}
+  .doc-preview h4{font-size:12.5px;margin:12px 0 4px;color:var(--ink-soft)}
+  .doc-preview p{margin:7px 0}
+  .doc-preview p.ctr{text-align:center;margin:3px 0}
+  .doc-preview hr{border:none;border-top:1px solid var(--line);margin:16px 0}
+  .doc-preview table{width:100%;border-collapse:collapse;font-size:12px;margin:8px 0}
+  .doc-preview th,.doc-preview td{border:1px solid var(--line);padding:5px 7px;text-align:left;vertical-align:top}
+  .doc-preview th{background:var(--bg);font-weight:600}
+  .doc-preview blockquote{border-left:3px solid var(--accent);background:#F2F9FA;margin:10px 0;padding:8px 12px;font-size:12.5px}
+  .doc-preview ul,.doc-preview ol{margin:7px 0 7px 20px}
+  .doc-preview li{margin:3px 0}
+  code{font-family:var(--mono);font-size:12px;background:var(--bg);padding:1px 4px;border-radius:3px}
+  .blank-note{font-family:var(--mono);font-size:11.5px;margin-bottom:10px}
+  .blank-note.pend{color:var(--warn)}
+  .blank-note.ok{color:var(--ok)}
+
   .foot-note{font-size:11.5px;color:var(--ink-soft);margin-top:28px;border-top:1px solid var(--line);padding-top:14px}
   .foot-note strong{color:var(--ink)}
   .refs{font-size:11px;color:var(--ink-soft);margin-top:8px}
@@ -129,9 +177,21 @@
     #report .r-head{border-bottom:2px solid #000;padding-bottom:8px;margin-bottom:14px}
     #report .r-meta{font-size:11px;color:#333}
     #report h3{font-size:12.5px;margin:14px 0 6px;text-transform:uppercase;letter-spacing:.05em;border-bottom:1px solid #999;padding-bottom:3px}
-    #report table{width:100%;border-collapse:collapse;font-size:11.5px}
+    #report h2{font-size:12.5px;margin:15px 0 6px;text-transform:uppercase;letter-spacing:.04em;
+      border-bottom:1px solid #999;padding-bottom:3px;page-break-after:avoid}
+    #report h4{font-size:11.5px;margin:10px 0 4px;page-break-after:avoid}
+    #report p{margin:6px 0}
+    #report p.ctr{text-align:center;margin:3px 0}
+    #report hr{border:none;border-top:1px solid #bbb;margin:12px 0}
+    #report blockquote{border-left:3px solid #000;padding:5px 10px;margin:8px 0;font-size:11px}
+    #report ul,#report ol{margin:6px 0 6px 18px}
+    #report li{margin:2px 0}
+    #report code{font-family:var(--mono);font-size:11px}
+    #report table{width:100%;border-collapse:collapse;font-size:11.5px;page-break-inside:avoid}
     #report table td,#report table th{padding:4px 6px;border-bottom:1px solid #ccc;text-align:left}
     #report table td.num{font-family:var(--mono);text-align:right;white-space:nowrap}
+    #report.laudo table th,#report.laudo table td{border:1px solid #999;vertical-align:top}
+    #report.laudo table th{background:#eee}
     #report .r-main{border:2px solid #000;padding:10px 14px;margin:10px 0;display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
     #report .r-main .big{font-family:var(--mono);font-size:20px;font-weight:600}
     #report .r-alert{border:1.5px solid #000;padding:8px 10px;margin-top:8px;font-weight:600;font-size:11.5px}
@@ -155,6 +215,7 @@
 <nav class="tabs" role="tablist">
   <button type="button" id="tab-btn-inf" class="active" data-tab="inf"><span class="t-ico">Bomba</span>Infusão</button>
   <button type="button" id="tab-btn-ledd" data-tab="ledd"><span class="t-ico">Σ mg/dia</span>LEDD total</button>
+  <button type="button" id="tab-btn-laudo" data-tab="laudo"><span class="t-ico">Documentos</span>Laudos</button>
   <button type="button" id="tab-btn-pt" data-tab="pt"><span class="t-ico">Registro</span>Paciente</button>
 </nav>
 
@@ -330,6 +391,32 @@
 </section>
 </div><!-- /pane-inf -->
 
+<!-- ==================== ABA LAUDOS ==================== -->
+<div class="tab-pane" id="pane-laudo">
+<section class="card">
+  <h2>Tipo de documento</h2>
+  <p class="hint">Escolha o laudo. Os campos abaixo se ajustam ao tipo escolhido e já vêm preenchidos com os dados das abas Paciente, LEDD e Infusão.</p>
+  <div class="type-grid" id="laudo-types"></div>
+</section>
+
+<section class="card">
+  <h2>Preenchimento rápido</h2>
+  <p class="hint">Preencha apenas o que tiver à mão — o que ficar em branco aparece como <code>[ ]</code> no documento, para completar depois. Tudo é salvo automaticamente.</p>
+  <div id="laudo-form"></div>
+</section>
+
+<section class="card">
+  <h2>Documento gerado</h2>
+  <div class="blank-note" id="laudo-blanks"></div>
+  <div class="doc-preview" id="laudo-doc"></div>
+  <div class="actions" style="margin-top:16px">
+    <button class="btn btn-primary" id="laudo-print" type="button">Imprimir / PDF</button>
+    <button class="btn btn-ghost" id="laudo-copy" type="button">Copiar texto</button>
+    <button class="btn btn-ghost" id="laudo-dl" type="button">Baixar .md</button>
+  </div>
+</section>
+</div><!-- /pane-laudo -->
+
 <div class="actions">
   <button class="btn btn-primary" id="btn-pdf" type="button">Exportar relatório em PDF</button>
   <button class="btn btn-ghost" id="btn-reset" type="button">Limpar tudo</button>
@@ -429,9 +516,10 @@
   var tabButtons = document.querySelectorAll("nav.tabs button");
   function showTab(tab){
     tabButtons.forEach(function(b){ b.classList.toggle("active", b.dataset.tab===tab); });
-    ["inf","ledd","pt"].forEach(function(t){
+    ["inf","ledd","laudo","pt"].forEach(function(t){
       $("pane-"+t).classList.toggle("active", t===tab);
     });
+    if (tab==="laudo") renderLaudo();
     saveState();
   }
   tabButtons.forEach(function(b){
@@ -718,8 +806,14 @@
           ledd.push({drug:tr.querySelector(".l-drug").value,
                      val:tr.querySelector(".l-dose").value});
         });
+        var laudo = {tipo: laudoType, campos: {}, checks: {}};
+        $("laudo-form").querySelectorAll("input,select,textarea").forEach(function(el){
+          if (el.type === "checkbox") laudo.checks[el.id] = el.checked;
+          else if (el.id) laudo.campos[el.id] = el.value;
+        });
         var st = {
           tab: activeTab(),
+          laudo: laudo,
           patient: {name:$("pt-name").value, record:$("pt-record").value, md:$("md-name").value,
                     birth:$("pt-birth").value, dx:$("pt-dx").value},
           inf: {regimen:$("regimen").value, awake:$("awake").value, comt:$("comt").value,
@@ -756,9 +850,1044 @@
     (st.ledd||[]).forEach(function(r){
       if (drugById(r.drug)) addLeddRow(r.drug, r.val||"");
     });
+    if (st.laudo){
+      if (st.laudo.tipo) laudoType = st.laudo.tipo;
+      buildLaudoForm();
+      Object.keys(st.laudo.campos||{}).forEach(function(k){ if ($(k)) $(k).value = st.laudo.campos[k]; });
+      Object.keys(st.laudo.checks||{}).forEach(function(k){ if ($(k)) $(k).checked = st.laudo.checks[k]; });
+      laudoBuilt = true;
+    }
     if (st.tab) showTab(st.tab);
     return true;
   }
+
+  function laudoDefaults(){
+    var hoje = new Date();
+    var iso = hoje.getFullYear()+"-"+String(hoje.getMonth()+1).padStart(2,"0")+"-"+String(hoje.getDate()).padStart(2,"0");
+    if (!V("l-data")) $("l-data").value = iso;
+    if (!V("l-lockout")) $("l-lockout").value = "1";
+    if (!V("l-dias")) $("l-dias").value = "3";
+  }
+
+  /* ==================== LAUDOS ==================== */
+  var LAUDO_TYPES = [
+    {id:"circ",   label:"Relatório circunstanciado", desc:"Documento completo para operadora, auditoria ou via judicial"},
+    {id:"resumo", label:"Solicitação resumida",      desc:"1–2 páginas para autorização prévia"},
+    {id:"receita",label:"Receituário / prescrição",  desc:"Prescrição da infusão, insumos e quantitativo mensal"},
+    {id:"acomp",  label:"Relatório de acompanhamento",desc:"Reavaliação após 3–6 meses, para manutenção do fornecimento"},
+    {id:"decl",   label:"Declaração — demais terapias",desc:"Justificativa da exclusão de DBS, gel intestinal e apomorfina"}
+  ];
+  var ADV_OPTS = ["","contraindicada","não indicada","recusada pelo paciente",
+                  "já realizada, com resposta insuficiente","utilizada previamente, com falha ou intolerância"];
+
+  var OTIM_ITENS = [
+    "Fracionamento e aumento da frequência das doses de levodopa",
+    "Levodopa dispersível / liberação prolongada / dose noturna",
+    "Adição de inibidor da COMT (entacapona ou opicapona)",
+    "Adição de inibidor da MAO-B (rasagilina ou safinamida)",
+    "Adição ou titulação de agonista dopaminérgico (incluindo rotigotina transdérmica)",
+    "Amantadina para discinesias",
+    "Apomorfina subcutânea intermitente (resgate)",
+    "Ajuste da dieta proteica / manejo de gastroparesia",
+    "Fisioterapia, fonoaudiologia e terapia ocupacional"
+  ];
+  var IND_ITENS = [
+    "Acinesia matinal (estado OFF ao despertar)",
+    "Períodos OFF noturnos com fragmentação do sono",
+    "Falhas de dose e OFF imprevisível por absorção errática",
+    "Retardo de esvaziamento gástrico ou disfagia",
+    "Discinesias bifásicas ou distonia dolorosa de período OFF",
+    "Quedas recorrentes",
+    "Sobrecarga significativa do cuidador / risco de institucionalização"
+  ];
+  var CI_ITENS = [
+    "Hipersensibilidade à foslevodopa, levodopa, foscarbidopa, carbidopa ou excipientes",
+    "Glaucoma de ângulo fechado",
+    "Doença cardiovascular, cerebrovascular, endócrina, renal, hepática, hematológica ou pulmonar descompensada",
+    "Uso de inibidor não seletivo da MAO ou inibidor seletivo da MAO-A",
+    "Lesões cutâneas suspeitas não diagnosticadas ou história de melanoma",
+    "Uso concomitante de amina simpaticomimética",
+    "Feocromocitoma, hipertireoidismo ou síndrome de Cushing"
+  ];
+  var APT_ITENS = [
+    "Apto a compreender e operar a bomba VYAFUSER™ e o conjunto de infusão",
+    "Conta com cuidador treinado e disponível",
+    "Função cognitiva compatível com o manejo do dispositivo",
+    "Domicílio com condições de refrigeração (2 °C a 8 °C)",
+    "Treinamento formal do paciente e do cuidador programado antes do início",
+    "Ausência de dermatopatia ou alteração da parede abdominal que impeça a infusão",
+    "Orientado quanto ao risco de início súbito do sono e direção veicular",
+    "Rastreio de transtorno do controle de impulsos realizado"
+  ];
+
+  var LAUDO_GROUPS = [
+    {id:"dest", title:"Destinatário e emissão", types:"circ resumo receita acomp decl", open:true, fields:[
+      {id:"l-dest-tipo", label:"Destinatário", type:"select", w:1,
+       opts:["Operadora de saúde / Auditoria Médica","Secretaria de Saúde","Comissão de Farmácia e Terapêutica","Juízo (ação judicial)","Outro"]},
+      {id:"l-dest-nome", label:"Nome da operadora / órgão / vara", type:"text"},
+      {id:"l-carteira", label:"Nº da carteirinha / CNS", type:"text"},
+      {id:"l-cidade",   label:"Cidade de emissão", type:"text"},
+      {id:"l-data",     label:"Data do documento", type:"date"},
+      {id:"l-anexos",   label:"Incluir anexos (tabelas da bula, diário e referências)", type:"check1", def:true, w:2}
+    ]},
+    {id:"md", title:"Médico assistente", types:"circ resumo receita acomp decl", fields:[
+      {id:"l-md-crm",   label:"CRM / UF", type:"text"},
+      {id:"l-md-rqe",   label:"RQE (Neurologia)", type:"text"},
+      {id:"l-md-inst",  label:"Instituição / serviço", type:"text", w:2},
+      {id:"l-md-end",   label:"Endereço profissional", type:"text", w:2},
+      {id:"l-md-cont",  label:"Telefone / e-mail", type:"text", w:2}
+    ]},
+    {id:"adm", title:"Identificação administrativa do paciente", types:"circ resumo acomp", fields:[
+      {id:"l-sexo",  label:"Sexo", type:"select", opts:["","Masculino","Feminino"]},
+      {id:"l-cpf",   label:"CPF / RG", type:"text"},
+      {id:"l-cns",   label:"CNS (Cartão Nacional de Saúde)", type:"text"},
+      {id:"l-plano", label:"Operadora / plano / nº do contrato", type:"text"},
+      {id:"l-end",   label:"Endereço", type:"text", w:2},
+      {id:"l-tel",   label:"Telefone / e-mail", type:"text"},
+      {id:"l-cuid",  label:"Cuidador principal (nome, vínculo, telefone)", type:"text"}
+    ]},
+    {id:"dx", title:"Diagnóstico e estadiamento", types:"circ resumo acomp", fields:[
+      {id:"l-forma",   label:"Forma clínica", type:"select", opts:["","rígido-acinética","tremulante","mista"]},
+      {id:"l-lado",    label:"Lado de início", type:"select", opts:["","direito","esquerdo"]},
+      {id:"l-hy-on",   label:"Hoehn & Yahr — ON", type:"number", step:"0.5"},
+      {id:"l-hy-off",  label:"Hoehn & Yahr — OFF", type:"number", step:"0.5"},
+      {id:"l-t-flut",  label:"Tempo de flutuações motoras (anos)", type:"number", step:"0.5"},
+      {id:"l-t-disc",  label:"Tempo de discinesias (anos)", type:"number", step:"0.5"},
+      {id:"l-teste-ld",label:"Teste agudo de levodopa — melhora no MDS-UPDRS III (%)", type:"number"},
+      {id:"l-teste-dt",label:"Data do teste de levodopa", type:"date"},
+      {id:"l-rm",      label:"RM de encéfalo — resultado", type:"text", w:2},
+      {id:"l-dat",     label:"DAT-SPECT / TRODAT — resultado (se realizado)", type:"text", w:2},
+      {id:"l-comorb",  label:"Comorbidades (com CID)", type:"text", w:2}
+    ]},
+    {id:"c521", title:"Critérios 5-2-1, diário e indicadores", types:"circ resumo acomp", open:true, fields:[
+      {id:"l-tomadas", label:"Tomadas diárias de levodopa", type:"number", hint:"preenchido pela aba Infusão"},
+      {id:"l-off",     label:"Horas/dia em OFF", type:"number", step:"0.1"},
+      {id:"l-disc",    label:"Horas/dia de discinesia incômoda", type:"number", step:"0.1"},
+      {id:"l-on-sem",  label:"Horas/dia ON sem discinesia incômoda", type:"number", step:"0.1"},
+      {id:"l-dias",    label:"Dias de diário registrados", type:"number"},
+      {id:"l-manage",  label:"MANAGE-PD", type:"select", opts:["","não aplicada","Categoria 1","Categoria 2","Categoria 3"]},
+      {id:"l-quedas",  label:"Quedas nos últimos 6 meses", type:"number"},
+      {id:"l-diario-ini", label:"Início do registro do diário", type:"date"},
+      {id:"l-ind", label:"Indicadores adicionais de doença avançada", type:"checks", items:IND_ITENS, w:2}
+    ]},
+    {id:"esc", title:"Escalas e exames laboratoriais", types:"circ acomp", fields:[
+      {id:"l-u1",  label:"MDS-UPDRS I", type:"number"},
+      {id:"l-u2",  label:"MDS-UPDRS II", type:"number"},
+      {id:"l-u3on",label:"MDS-UPDRS III — ON", type:"number"},
+      {id:"l-u3off",label:"MDS-UPDRS III — OFF", type:"number"},
+      {id:"l-u4",  label:"MDS-UPDRS IV", type:"number"},
+      {id:"l-se",  label:"Schwab & England (%)", type:"number"},
+      {id:"l-moca",label:"MoCA ou MEEM", type:"number"},
+      {id:"l-pdss",label:"PDSS-2", type:"number"},
+      {id:"l-pdq", label:"PDQ-39 (índice sumário)", type:"number"},
+      {id:"l-quip",label:"QUIP-RS", type:"number"},
+      {id:"l-b12", label:"Vitamina B12 (pg/mL)", type:"number"},
+      {id:"l-b6",  label:"Vitamina B6", type:"text"},
+      {id:"l-homo",label:"Homocisteína", type:"text"},
+      {id:"l-esc-dt", label:"Data das escalas", type:"date"}
+    ]},
+    {id:"otim", title:"Otimizações já realizadas", types:"circ resumo", fields:[
+      {id:"l-otim", label:"Estratégias já tentadas", type:"checks", items:OTIM_ITENS, w:2},
+      {id:"l-otim-obs", label:"Desfechos e motivos de falha ou suspensão", type:"textarea", w:2},
+      {id:"l-otim-tempo", label:"Tempo de tratamento oral otimizado", type:"text"},
+      {id:"l-limite", label:"O que limita novos aumentos das doses orais", type:"select", w:1,
+       opts:["","indução de discinesia incômoda","efeitos adversos neuropsiquiátricos","absorção errática","hipotensão ortostática","náuseas e intolerância gastrointestinal"]}
+    ]},
+    {id:"adv", title:"Demais terapias avançadas", types:"circ resumo decl", open:true, fields:[
+      {id:"l-dbs",      label:"Estimulação cerebral profunda (DBS)", type:"select", opts:ADV_OPTS},
+      {id:"l-dbs-just", label:"Justificativa — DBS", type:"text"},
+      {id:"l-lcig",     label:"Gel intestinal de levodopa/carbidopa (LCIG)", type:"select", opts:ADV_OPTS},
+      {id:"l-lcig-just",label:"Justificativa — LCIG", type:"text"},
+      {id:"l-apo",      label:"Infusão subcutânea de apomorfina", type:"select", opts:ADV_OPTS},
+      {id:"l-apo-just", label:"Justificativa — apomorfina", type:"text"}
+    ]},
+    {id:"ci", title:"Contraindicações e aptidão para o dispositivo", types:"circ", fields:[
+      {id:"l-ci", label:"Contraindicações afastadas (marcar as verificadas)", type:"checks", items:CI_ITENS, def:true, w:2},
+      {id:"l-oftalmo", label:"Data da avaliação oftalmológica", type:"date"},
+      {id:"l-dermato", label:"Data da avaliação dermatológica", type:"date"},
+      {id:"l-apt", label:"Aptidão para uso do sistema", type:"checks", items:APT_ITENS, def:true, w:2}
+    ]},
+    {id:"bomba", title:"Programação da bomba, início e insumos", types:"circ resumo receita acomp", open:true, fields:[
+      {id:"l-dose-ini",  label:"Dose inicial / bolus de partida (mL)", type:"number", step:"0.1", hint:"da aba Infusão"},
+      {id:"l-extra-on",  label:"Habilitar dose extra", type:"select", opts:["sim","não"]},
+      {id:"l-lockout",   label:"Intervalo mínimo entre doses extras (h)", type:"number", step:"0.5"},
+      {id:"l-taxa-baixa",label:"Programar taxa alternativa BAIXA", type:"select", opts:["sim","não"]},
+      {id:"l-taxa-alta", label:"Programar taxa alternativa ALTA", type:"select", opts:["sim","não"]},
+      {id:"l-local-ini", label:"Local previsto para o início", type:"text"},
+      {id:"l-data-ini",  label:"Data prevista para o início", type:"date"},
+      {id:"l-reaval",    label:"Reavaliação formal em", type:"select", opts:["3 meses","6 meses"]}
+    ]},
+    {id:"fu", title:"Dados do acompanhamento", types:"acomp", open:true, fields:[
+      {id:"l-fu-inicio",  label:"Data de início da infusão", type:"date"},
+      {id:"l-fu-meses",   label:"Tempo de tratamento (meses)", type:"number"},
+      {id:"l-fu-off-b",   label:"OFF antes do tratamento (h/dia)", type:"number", step:"0.1"},
+      {id:"l-fu-on-b",    label:"ON sem discinesia incômoda antes (h/dia)", type:"number", step:"0.1"},
+      {id:"l-fu-u3-b",    label:"MDS-UPDRS III antes", type:"number"},
+      {id:"l-fu-u3-a",    label:"MDS-UPDRS III atual", type:"number"},
+      {id:"l-fu-eventos", label:"Eventos adversos observados e conduta", type:"textarea", w:2},
+      {id:"l-fu-desfecho",label:"Avaliação global da resposta", type:"select", w:2,
+       opts:["","resposta excelente, com manutenção indicada","resposta boa, com manutenção indicada","resposta parcial, em titulação","resposta insuficiente, em reavaliação"]}
+    ]},
+    {id:"txt", title:"Textos livres (opcionais)", types:"circ resumo decl", fields:[
+      {id:"l-hda",    label:"História da doença atual", type:"textarea", w:2},
+      {id:"l-atual",  label:"Situação clínica atual", type:"textarea", w:2},
+      {id:"l-justif", label:"Justificativa da escolha da foslevodopa/foscarbidopa para este paciente", type:"textarea", w:2},
+      {id:"l-risco",  label:"Riscos particulares deste caso, se o tratamento não for instituído", type:"textarea", w:2}
+    ]}
+  ];
+
+  var laudoType = "circ";
+  var laudoBuilt = false;
+
+  /* ---- construção do formulário ---- */
+  function fieldHtml(f){
+    var cls = (f.w===2 || f.type==="checks" || f.type==="textarea") ? " class=\"w2\"" : "";
+    var h = "<div"+cls+">";
+    if (f.type==="checks"){
+      h += '<label style="margin-bottom:6px">'+esc(f.label)+'</label><div class="checks">';
+      f.items.forEach(function(it,i){
+        h += '<label><input type="checkbox" data-check="'+f.id+'" data-lbl="'+esc(it)+'" id="'+f.id+'-'+i+'"'+
+             (f.def?" checked":"")+'><span>'+esc(it)+'</span></label>';
+      });
+      h += '</div>';
+    } else if (f.type==="check1"){
+      h += '<div class="checks"><label><input type="checkbox" id="'+f.id+'"'+(f.def?" checked":"")+
+           '><span>'+esc(f.label)+'</span></label></div>';
+    } else if (f.type==="textarea"){
+      h += '<label for="'+f.id+'">'+esc(f.label)+'</label><textarea id="'+f.id+'"></textarea>';
+    } else if (f.type==="select"){
+      h += '<label for="'+f.id+'">'+esc(f.label)+'</label><select id="'+f.id+'">';
+      f.opts.forEach(function(o){ h += '<option value="'+esc(o)+'">'+(o?esc(o):"—")+'</option>'; });
+      h += '</select>';
+    } else {
+      h += '<label for="'+f.id+'">'+esc(f.label)+(f.hint?' <span class="fg-count">'+esc(f.hint)+'</span>':'')+'</label>'+
+           '<input type="'+f.type+'" id="'+f.id+'"'+(f.step?' step="'+f.step+'"':'')+(f.type==="number"?' min="0"':'')+'>';
+    }
+    return h+"</div>";
+  }
+
+  function buildLaudoForm(){
+    var tg = "";
+    LAUDO_TYPES.forEach(function(t){
+      tg += '<button type="button" class="type-card'+(t.id===laudoType?" sel":"")+'" data-type="'+t.id+'">'+
+            '<b>'+esc(t.label)+'</b><span>'+esc(t.desc)+'</span></button>';
+    });
+    $("laudo-types").innerHTML = tg;
+    $("laudo-types").querySelectorAll(".type-card").forEach(function(b){
+      b.addEventListener("click", function(){
+        laudoType = b.dataset.type;
+        $("laudo-types").querySelectorAll(".type-card").forEach(function(x){ x.classList.toggle("sel", x===b); });
+        applyTypeVisibility(); renderLaudo(); saveState();
+      });
+    });
+
+    var fh = "";
+    LAUDO_GROUPS.forEach(function(g){
+      fh += '<details class="fg" id="fg-'+g.id+'"'+(g.open?" open":"")+'>'+
+            '<summary>'+esc(g.title)+'<span class="fg-count" id="cnt-'+g.id+'"></span></summary>'+
+            '<div class="fg-body"><div class="grid g2">';
+      g.fields.forEach(function(f){ fh += fieldHtml(f); });
+      fh += '</div></div></details>';
+    });
+    $("laudo-form").innerHTML = fh;
+
+    $("laudo-form").querySelectorAll("input,select,textarea").forEach(function(el){
+      el.addEventListener("input", function(){ renderLaudo(); saveState(); });
+      el.addEventListener("change", function(){ renderLaudo(); saveState(); });
+    });
+    applyTypeVisibility();
+  }
+
+  function applyTypeVisibility(){
+    LAUDO_GROUPS.forEach(function(g){
+      $("fg-"+g.id).style.display = g.types.indexOf(laudoType)>=0 ? "" : "none";
+    });
+  }
+
+  function updateGroupCounts(){
+    LAUDO_GROUPS.forEach(function(g){
+      var filled=0, total=0;
+      g.fields.forEach(function(f){
+        if (f.type==="checks"){
+          total++; if (checkedItems(f.id).length) filled++;
+        } else if (f.type==="check1"){ /* não conta */ }
+        else { total++; if (V(f.id)) filled++; }
+      });
+      $("cnt-"+g.id).textContent = filled+"/"+total;
+    });
+  }
+
+  /* ---- leitura de valores ---- */
+  function V(id){ var el=$(id); return el ? String(el.value||"").trim() : ""; }
+  function N(id){ var v=parseFloat(V(id)); return isFinite(v)?v:null; }
+  function CK(id){ var el=$(id); return el ? !!el.checked : false; }
+  function checkedItems(id){
+    var out=[];
+    document.querySelectorAll('[data-check="'+id+'"]').forEach(function(el){ if(el.checked) out.push(el.dataset.lbl); });
+    return out;
+  }
+  function isChecked(id, item){
+    var f=null;
+    LAUDO_GROUPS.forEach(function(g){ g.fields.forEach(function(x){ if(x.id===id) f=x; }); });
+    if (!f) return false;
+    var i = f.items.indexOf(item);
+    return i>=0 && CK(id+"-"+i);
+  }
+
+  /* ---- marcadores ---- */
+  var BLANK = "[ ]";
+  function P(v){ v=(v===null||v===undefined)?"":String(v).trim(); return v || BLANK; }
+  function Pn(v, dec, unit){
+    if (v===null || v===undefined || !isFinite(v)) return BLANK;
+    return fmt(v, dec||0) + (unit?" "+unit:"");
+  }
+  function ck(b){ return b ? "☒" : "☐"; }
+  function fmtDate(iso){
+    if (!iso) return "[ __ / __ / ____ ]";
+    var p = String(iso).split("-");
+    return p.length===3 ? p[2]+"/"+p[1]+"/"+p[0] : BLANK;
+  }
+  var MESES = ["janeiro","fevereiro","março","abril","maio","junho","julho","agosto","setembro","outubro","novembro","dezembro"];
+  function dataExtenso(iso){
+    if (!iso) return "[ __ ] de [ ____________ ] de [ ______ ]";
+    var p = String(iso).split("-");
+    return parseInt(p[2],10)+" de "+MESES[parseInt(p[1],10)-1]+" de "+p[0];
+  }
+  function tbl(head, rows){
+    var m = "| "+head.join(" | ")+" |\n|"+head.map(function(){return "---";}).join("|")+"|";
+    rows.forEach(function(r){ m += "\n| "+r.join(" | ")+" |"; });
+    return m;
+  }
+
+  /* ---- Tabela 5 da bula: faixa de taxa inicial por EL16 ---- */
+  var T5 = [[400,0.15,0.17],[500,0.17,0.20],[600,0.20,0.24],[700,0.24,0.27],[800,0.27,0.30],[900,0.30,0.34],
+    [1000,0.34,0.37],[1100,0.37,0.40],[1200,0.40,0.44],[1300,0.44,0.47],[1400,0.47,0.51],[1500,0.51,0.54],
+    [1600,0.54,0.57],[1700,0.57,0.61],[1800,0.61,0.64],[1900,0.64,0.68],[2000,0.68,0.71],[2100,0.71,0.74],
+    [2200,0.74,0.78],[2300,0.78,0.81],[2400,0.81,0.84],[2500,0.84,0.88],[2600,0.88,0.91],[2700,0.91,0.94],
+    [2800,0.94,0.98],[2900,0.98,1.01],[3000,1.01,1.04]];
+  function tabela5(el){
+    if (el===null || !isFinite(el)) return null;
+    if (el < 400) return {lo:0.15, hi:0.15};
+    if (el >= 3100) return {lo:1.04, hi:1.04};
+    for (var i=T5.length-1; i>=0; i--) if (el >= T5[i][0]) return {lo:T5[i][1], hi:T5[i][2]};
+    return null;
+  }
+
+  /* ---- contexto: dados vindos das outras abas ---- */
+  function laudoCtx(){
+    var p = patientInfo(), o = window.__calc||{}, L = window.__ledd||{}, c = {};
+    c.nome = P(p.name); c.reg = P(p.record); c.md = P(p.md);
+    c.nasc = fmtDate($("pt-birth").value);
+    c.dxDate = fmtDate($("pt-dx").value);
+    c.idade = p.age!==null ? p.age+" anos" : BLANK;
+    c.dur = p.dur!==null ? fmt(p.dur,1)+" anos" : BLANK;
+    c.ledd = L.total ? fmt(L.total,0)+" mg/dia" : BLANK;
+    c.leddN = L.total||null; c.leddRows = L.rows||[];
+    c.tld = o.tld||null; c.awake = o.awake||16; c.rows = o.rows||[];
+    c.el16 = o.tld ? o.tld/c.awake*16 : null;
+    c.faixa = tabela5(c.el16);
+    c.base = o.base||null; c.low = o.low||null; c.high = o.high||null;
+    c.lowPct = o.lowPct; c.highPct = o.highPct;
+    c.vol24 = c.base!==null ? c.base*24 : null;
+    c.foslevDay = c.vol24!==null ? c.vol24*CONC : null;
+    c.ldDay = c.foslevDay!==null ? c.foslevDay/MW : null;
+    c.frascosDia = c.vol24!==null ? Math.ceil(c.vol24/10) : null;
+    c.frascosMes = c.frascosDia!==null ? c.frascosDia*30 : null;
+    c.caixas = c.frascosMes!==null ? Math.ceil(c.frascosMes/7) : null;
+    c.equipos = 12;
+    c.load = N("l-dose-ini")!==null ? N("l-dose-ini") : (o.load||null);
+    c.extra = o.extra||null; c.extraLd = o.extraLd||null;
+    var tom = 0;
+    medsBody.querySelectorAll("tr").forEach(function(tr){ tom += parseFloat(tr.querySelector(".m-times").value)||0; });
+    c.tomadas = N("l-tomadas")!==null ? N("l-tomadas") : (tom||null);
+    c.off = N("l-off"); c.disc = N("l-disc"); c.onSem = N("l-on-sem");
+    c.c5 = c.tomadas!==null && c.tomadas>=5;
+    c.c2 = c.off!==null && c.off>=2;
+    c.c1 = c.disc!==null && c.disc>=1;
+    c.pos521 = c.c5||c.c2||c.c1;
+    c.comtF = o.comtF||1;
+    c.dest = V("l-dest-nome") ? V("l-dest-tipo")+" — "+V("l-dest-nome") : V("l-dest-tipo");
+    c.cidade = P(V("l-cidade"));
+    c.dataDoc = V("l-data");
+    c.anexos = CK("l-anexos");
+    return c;
+  }
+
+  /* ---- blocos reutilizáveis ---- */
+  function blocoCabecalho(c, titulo, subtitulo){
+    var m = ["# "+titulo, ""];
+    if (subtitulo) m.push("**"+subtitulo+"**", "");
+    m.push("**À** "+P(c.dest), "");
+    m.push("**Paciente:** "+c.nome+" — carteirinha/CNS: "+P(V("l-carteira")), "");
+    m.push("**Data:** "+fmtDate(c.dataDoc), "");
+    m.push("---", "");
+    return m;
+  }
+
+  function blocoIdent(c){
+    return ["## 1. Identificação", "", "### 1.1 Paciente", "",
+      tbl(["Campo","Dado"], [
+        ["Nome completo", c.nome],
+        ["Data de nascimento / idade", c.nasc+" — "+c.idade],
+        ["Sexo", P(V("l-sexo"))],
+        ["CPF / RG", P(V("l-cpf"))],
+        ["CNS", P(V("l-cns"))],
+        ["Operadora / plano / contrato", P(V("l-plano"))],
+        ["Registro / prontuário", c.reg],
+        ["Endereço", P(V("l-end"))],
+        ["Telefone / e-mail", P(V("l-tel"))],
+        ["Cuidador principal", P(V("l-cuid"))]
+      ]), "",
+      "### 1.2 Médico assistente responsável pela prescrição", "",
+      tbl(["Campo","Dado"], [
+        ["Nome", c.md],
+        ["CRM / UF", P(V("l-md-crm"))],
+        ["RQE (Neurologia)", P(V("l-md-rqe"))],
+        ["Área de atuação", "Neurologia — Transtornos do Movimento"],
+        ["Instituição / serviço", P(V("l-md-inst"))],
+        ["Endereço profissional", P(V("l-md-end"))],
+        ["Telefone / e-mail", P(V("l-md-cont"))]
+      ]), "",
+      "> A bula aprovada pela Anvisa determina que VYALEV® só deve ser prescrito por neurologistas com experiência no tratamento de pacientes com doença de Parkinson. Esta condição está atendida, conforme o registro profissional acima.", ""];
+  }
+
+  function bloco521(c){
+    var m = ["### Critérios 5-2-1 (consenso Delphi multinacional — Antonini et al., 2018)", "",
+      tbl(["Critério","Presente","Dado objetivo"], [
+        ["≥ 5 tomadas diárias de levodopa oral", c.tomadas!==null?(c.c5?"sim":"não"):BLANK, Pn(c.tomadas,0,"tomadas/dia")],
+        ["≥ 2 h/dia de período OFF", c.off!==null?(c.c2?"sim":"não"):BLANK, Pn(c.off,1,"h/dia")],
+        ["≥ 1 h/dia de discinesia incômoda", c.disc!==null?(c.c1?"sim":"não"):BLANK, Pn(c.disc,1,"h/dia")]
+      ]), ""];
+    if (c.pos521) m.push("**Paciente 5-2-1 positivo**, com indicação formal de avaliação para terapia de infusão contínua.", "");
+    if (V("l-manage") && V("l-manage")!=="não aplicada")
+      m.push("Ferramenta MANAGE-PD (Antonini et al., 2021): **"+V("l-manage")+"**.", "");
+    var ind = checkedItems("l-ind");
+    if (ind.length){
+      m.push("### Indicadores adicionais de doença avançada", "");
+      ind.forEach(function(i){
+        m.push("- "+i+(i.indexOf("Quedas")===0 && N("l-quedas")!==null ? " ("+fmt(N("l-quedas"),0)+" episódios em 6 meses)" : ""));
+      });
+      m.push("");
+    }
+    m.push("Dose diária equivalente de levodopa (LEDD) atual: **"+c.ledd+"**"+
+           (c.leddN?" — calculada conforme Jost et al., Mov Disord. 2023 (recomendações atualizadas da MDS).":"."), "");
+    if (c.off!==null || c.disc!==null || c.onSem!==null){
+      m.push("### Diário da doença de Parkinson", "",
+        "Registro de "+Pn(N("l-dias"),0)+" dias consecutivos"+
+        (V("l-diario-ini")?", a partir de "+fmtDate(V("l-diario-ini")):"")+", normalizado para 16 h de vigília.", "",
+        tbl(["Estado","Horas/dia (média)","% do dia de vigília"], [
+          ["OFF", Pn(c.off,1), c.off!==null?fmt(c.off/16*100,0)+"%":BLANK],
+          ["ON sem discinesia incômoda", Pn(c.onSem,1), c.onSem!==null?fmt(c.onSem/16*100,0)+"%":BLANK],
+          ["ON com discinesia incômoda", Pn(c.disc,1), c.disc!==null?fmt(c.disc/16*100,0)+"%":BLANK]
+        ]), "");
+    }
+    return m;
+  }
+
+  function blocoMedsAtuais(c){
+    var m = ["### Esquema antiparkinsoniano atual", ""];
+    if (c.leddRows.length){
+      m.push(tbl(["Fármaco","Classe","Dose diária","LED"], c.leddRows.map(function(r){
+        var d = r.mode==="dd" ? fmt(r.val, r.val<10?2:0)+" mg/dia"
+              : r.mode==="perdose" ? fmt(r.val,0)+" tomadas/dia"
+              : r.mode==="fixed" ? "dose aprovada" : "—";
+        return [r.label, r.cls, d, fmt(r.led,0)+" mg"];
+      }).concat([["**LEDD total**","","","**"+fmt(c.leddN,0)+" mg/dia**"]])), "");
+    } else if (c.rows.length && c.tld){
+      m.push(tbl(["Formulação","Dose por tomada","Tomadas/dia","Equivalente de levodopa"],
+        c.rows.filter(function(r){return r.dose>0&&r.times>0;}).map(function(r){
+          return [r.form.label, fmt(r.dose,0)+" mg", fmt(r.times,0)+"×/dia", fmt(r.eq,0)+" mg"];
+        })), "");
+    } else {
+      m.push("[ Preencher as medicações nas abas LEDD e Infusão ]", "");
+    }
+    return m;
+  }
+
+  function blocoPosologia(c, nivel){
+    var n = nivel || "##";
+    var m = [n+" Cálculo posológico e prescrição", "",
+      "O cálculo segue as três etapas do item 8 da bula aprovada (Posologia e Modo de Usar).", "",
+      n+"# Etapa 1 — Equivalentes de levodopa das 16 horas de vigília (EL₁₆)", ""];
+    var ir = 0, cr = 0, temStalevo = false;
+    c.rows.forEach(function(r){
+      if (!r.dose || !r.times) return;
+      if (r.form.f === 0.75) cr += r.dose*r.times;
+      else { ir += r.dose*r.times; if (r.form.id==="stalevo") temStalevo = true; }
+    });
+    var comt = c.comtF > 1 || temStalevo;
+    var parcial = ir + cr*0.75;
+    // fator efetivo: mantém a tabela coerente com o total, mesmo se o inibidor
+    // da COMT escolhido usar fator diferente do ×1,33 uniforme da bula
+    var fatorEf = (parcial > 0 && c.tld) ? c.tld/parcial : null;
+    var linhas = [
+      ["Levodopa de liberação imediata (inclui a contida em associações com inibidor da COMT)", ir?fmt(ir,0)+" mg":BLANK, "× 1", ir?fmt(ir,0)+" mg":BLANK],
+      ["Levodopa de liberação sustentada, controlada ou prolongada", cr?fmt(cr,0)+" mg":BLANK, "× 0,75", cr?fmt(cr*0.75,0)+" mg":BLANK],
+      ["Soma parcial", "", "", parcial?fmt(parcial,0)+" mg":BLANK]
+    ];
+    if (comt) linhas.push(["Correção para uso de inibidor da COMT nas 24 h", "",
+      fatorEf ? "× "+fmt(fatorEf,2) : "× 1,33", parcial&&fatorEf?fmt(parcial*fatorEf,0)+" mg":BLANK]);
+    linhas.push(["**Equivalente de levodopa nas horas de vigília**", "", "", "**"+Pn(c.tld,0,"mg")+"**"]);
+    linhas.push(["**EL₁₆ (normalizado para 16 h — paciente acordado "+fmt(c.awake,0)+" h)**", "", "", "**"+Pn(c.el16,0,"mg")+"**"]);
+    m.push(tbl(["Fonte de levodopa","Dose diária","Fator","Subtotal"], linhas), "");
+    if (comt && fatorEf && Math.abs(fatorEf-1.33) > 0.01)
+      m.push("Observação: a Tabela 4 da bula prevê correção uniforme de × 1,33 para qualquer inibidor da COMT. Adotou-se aqui o fator × "+
+        fmt(fatorEf,2)+", individualizado para o inibidor em uso, com a taxa resultante conferida contra a Tabela 5.", "");
+
+    m.push(n+"# Etapa 2 — Taxa de infusão basal contínua (24 h)", "",
+      tbl(["Parâmetro","Valor"], [
+        ["EL₁₆ calculado", Pn(c.el16,0,"mg")],
+        ["Faixa sugerida pela Tabela 5 da bula", c.faixa ? fmt(c.faixa.lo,2)+" a "+fmt(c.faixa.hi,2)+" mL/h" : BLANK],
+        ["**Taxa basal prescrita**", "**"+Pn(c.base,2,"mL/h")+"**"+(c.ldDay?" (≈ "+fmt(c.ldDay,0)+" mg de levodopa/24 h)":"")],
+        ["Taxa alternativa BAIXA (noturna)", V("l-taxa-baixa")==="sim" ? Pn(c.low,2,"mL/h")+" (−"+fmt(c.lowPct,0)+"%)" : "não programada"],
+        ["Taxa alternativa ALTA (atividade prolongada)", V("l-taxa-alta")==="sim" ? Pn(c.high,2,"mL/h")+" (+"+fmt(c.highPct,0)+"%)" : "não programada"]
+      ]), "");
+    if (c.faixa && c.base !== null){
+      var dentro = c.base >= c.faixa.lo-0.005 && c.base <= c.faixa.hi+0.005;
+      m.push(dentro
+        ? "A taxa prescrita situa-se dentro da faixa sugerida pela Tabela 5 da bula para o EL₁₆ calculado."
+        : "**Atenção:** a taxa prescrita ("+fmt(c.base,2)+" mL/h) situa-se fora da faixa sugerida pela Tabela 5 da bula ("+
+          fmt(c.faixa.lo,2)+" a "+fmt(c.faixa.hi,2)+" mL/h) para o EL₁₆ calculado — justificar a individualização.", "");
+    }
+    if (c.base !== null && c.base > 1.04)
+      m.push("**Atenção:** a taxa prescrita excede o máximo de 1,04 mL/h (6.000 mg de foslevodopa/dia) previsto em bula.", "");
+    m.push("Fórmula da bula: taxa (mL/h) = [(EL × 0,92 × 1,41) ÷ 240] ÷ X, sendo X o número de horas de vigília. Ajustes em incrementos de 0,01 mL/h (≈ 1,7 mg de levodopa/h); máximo de 1,04 mL/h, correspondente a 6.000 mg de foslevodopa/dia.", "");
+
+    m.push(n+"# Etapa 3 — Dose inicial e doses extras", "",
+      tbl(["Parâmetro","Valor"], [
+        ["Dose inicial programada (bolus de partida)", Pn(c.load,1,"mL")+(c.load?" (≈ "+fmt(c.load*CONC/MW,0)+" mg de equivalente de levodopa)":"")],
+        ["Dose extra habilitada", V("l-extra-on")==="não" ? "não" : "sim — "+Pn(c.extra,2,"mL")+(c.extraLd?" (≈ "+fmt(c.extraLd,1)+" mg de levodopa)":"")],
+        ["Intervalo mínimo entre doses extras", Pn(N("l-lockout"),1,"h")+" — máximo de 1 dose extra por hora"]
+      ]), "");
+    return m;
+  }
+
+  function blocoPrescricao(c){
+    return ["**VYALEV® (foslevodopa 240 mg/mL + foscarbidopa hidratada 12 mg/mL), solução injetável, frasco-ampola de 10 mL.**", "",
+      "Administrar em infusão subcutânea contínua de 24 horas/dia, na região abdominal (evitando o raio de 5 cm ao redor do umbigo), exclusivamente por meio da bomba de infusão VYAFUSER™, à taxa basal de **"+Pn(c.base,2,"mL/h")+"**, com dose inicial de **"+Pn(c.load,1,"mL")+"**"+
+      (V("l-extra-on")==="não" ? " e sem doses extras habilitadas" : " e doses extras de **"+Pn(c.extra,2,"mL")+"** (intervalo mínimo de "+Pn(N("l-lockout"),1,"h")+")")+
+      ", conforme titulação clínica.", "",
+      "Rodízio do local de infusão e troca do conjunto de infusão a cada ≤ 3 dias, mantendo os novos locais a ≥ 2,5 cm dos utilizados nos 12 dias anteriores. **Uso contínuo.**", ""];
+  }
+
+  function blocoQuantitativo(c){
+    return ["### Quantitativo mensal solicitado", "",
+      "Todo o conteúdo do frasco deve ser transferido para a seringa e não é permitido armazenar sobras, de modo que o número de frascos por dia corresponde ao volume diário arredondado para cima em múltiplos de 10 mL.", "",
+      tbl(["Item","Quantidade mensal","Observação"], [
+        ["VYALEV® 10 mL (frascos-ampola)", "**"+Pn(c.frascosMes,0,"frascos")+"**"+(c.caixas?" = "+fmt(c.caixas,0)+" caixas de 7":""),
+         (c.base?"taxa de "+fmt(c.base,2)+" mL/h → "+fmt(c.vol24,1)+" mL/dia → "+fmt(c.frascosDia,0)+" frasco(s)/dia":BLANK)],
+        ["Seringas de uso único qualificadas", Pn(c.frascosMes,0,"unidades"), "1 por frasco preparado"],
+        ["Adaptadores de frasco-ampola", Pn(c.frascosMes,0,"unidades"), "1 novo adaptador por frasco (obrigatório)"],
+        ["Conjuntos de infusão (equipo e cânula)", fmt(c.equipos,0)+" unidades", "troca a cada ≤ 3 dias, com margem para trocas antecipadas"],
+        ["Bomba de infusão VYAFUSER™", "1 unidade", "dispositivo de uso exclusivo, sem alternativa intercambiável"],
+        ["Insumos de assepsia (lenços com álcool)", "60 unidades", "preparo e antissepsia do sítio"]
+      ]), "",
+      "Período solicitado: **uso contínuo**, com reavaliação clínica formal em "+P(V("l-reaval"))+" e emissão de relatório de acompanhamento.", ""];
+  }
+
+  function blocoRegulatorio(){
+    return [tbl(["Item","Dado"], [
+      ["Nome comercial", "VYALEV®"],
+      ["Princípios ativos", "Foslevodopa + foscarbidopa hidratada"],
+      ["Concentração / apresentação", "(240 + 12) mg/mL, solução injetável — caixa com 7 frascos-ampola de 10 mL"],
+      ["Via de administração", "Subcutânea, infusão contínua de 24 h/dia (uso adulto)"],
+      ["Código ATC", "N04BA07"],
+      ["Registro Anvisa", "**1.9860.0023** (apresentação 1.9860.0023.001-4)"],
+      ["Deferimento", "RESOLUÇÃO-RE nº 2.105, de 22/05/2026, DOU de 25/05/2026, Seção 1 — processo 25351.089728/2025-80"],
+      ["Detentor do registro", "AbbVie Farmacêutica Ltda. — CNPJ 15.800.545/0001-50"],
+      ["Conservação", "Refrigeração entre 2 °C e 8 °C; não congelar. Até 28 dias em temperatura ambiente (≤ 30 °C), em período único"],
+      ["Dispositivo obrigatório", "Bomba de infusão VYAFUSER™ (uso exclusivo)"]
+    ]), "",
+    "**Indicação em bula:** tratamento das flutuações motoras em pacientes com doença de Parkinson avançada responsiva à levodopa que não apresentam controle satisfatório das flutuações motoras graves e debilitantes e da hiper/discinesia, apesar do tratamento otimizado com as combinações disponíveis de medicamentos para a doença de Parkinson.", "",
+    "> A prescrição ora formulada é integralmente compatível com a indicação aprovada pela Anvisa, não se tratando de uso off-label nem de medicamento experimental ou sem registro sanitário no Brasil.", ""];
+  }
+
+  function blocoTerapias(c, comTitulo){
+    var m = [];
+    if (comTitulo) m.push("Conforme a diretriz da European Academy of Neurology / Movement Disorder Society — European Section sobre terapias invasivas na doença de Parkinson (Deuschl et al., 2022), a escolha entre as terapias assistidas por dispositivo deve ser individualizada segundo perfil de sintomas, comorbidades, cognição, suporte social e preferência informada do paciente.", "");
+    m.push(tbl(["Terapia","Situação","Justificativa"], [
+      ["Estimulação cerebral profunda (DBS)", P(V("l-dbs")), P(V("l-dbs-just"))],
+      ["Gel intestinal de levodopa/carbidopa (LCIG)", P(V("l-lcig")), P(V("l-lcig-just"))],
+      ["Infusão subcutânea contínua de apomorfina", P(V("l-apo")), P(V("l-apo-just"))],
+      ["**Foslevodopa/foscarbidopa (VYALEV®) — ora solicitada**", "**indicada**",
+       "Terapia não cirúrgica, com entrega contínua de levodopa nas 24 h do dia, dose individualizável em incrementos de ≈ 1,7 mg de levodopa/hora, cobrindo também o período noturno e a acinesia matinal"]
+    ]), "");
+    if (V("l-justif")) m.push("**Justificativa da escolha:** "+V("l-justif"), "");
+    return m;
+  }
+
+  function blocoAssinatura(c){
+    return ["", "---", "",
+      "::c "+c.cidade+", "+dataExtenso(c.dataDoc),
+      "::c &nbsp;",
+      "::c ______________________________________________",
+      "::c **"+c.md+"**",
+      "::c CRM "+P(V("l-md-crm"))+" — RQE "+P(V("l-md-rqe")),
+      "::c Neurologia / Transtornos do Movimento",
+      "::c "+P(V("l-md-inst"))+" · "+P(V("l-md-cont")),
+      "::c Assinatura e carimbo", ""];
+  }
+
+  function blocoAnexos(c){
+    if (!c.anexos) return [];
+    var m = ["", "---", "", "## Anexo A — Tabelas de referência da bula aprovada", "",
+      "### A.1 Cálculo dos equivalentes de levodopa (Tabela 4)", "",
+      tbl(["Formulação de levodopa","Fator"], [
+        ["Liberação imediata (inclui a levodopa contida em associações com inibidor da COMT)","× 1"],
+        ["Liberação sustentada, controlada ou prolongada","× 0,75"],
+        ["Correção aplicada à soma total, se houver qualquer inibidor da COMT em 24 h","× 1,33"]
+      ]), "",
+      "### A.2 Taxa de infusão inicial sugerida (Tabela 5)", ""];
+    var linhas = [["< 400","0,15"]];
+    T5.forEach(function(t){ linhas.push([fmt(t[0],0)+"–"+fmt(t[0]+99,0), fmt(t[1],2)+"–"+fmt(t[2],2)]); });
+    linhas.push(["> 3100","1,04"]);
+    m.push(tbl(["EL₁₆ (mg)","Taxa inicial (mL/h)"], linhas), "",
+      "### A.3 Volume da dose inicial (Tabela 6)", "",
+      tbl(["Volume (mL)","Equivalente de levodopa (mg)"], [["0,6","100"],["0,9–1,2","150–200"],["1,5–1,8","250–300"],["2,0","350"]]), "",
+      "0,1 mL contém 24 mg de foslevodopa (≈ 17 mg de levodopa). A bomba administra dose inicial de 0,1 mL até 3,0 mL, em incrementos de 0,1 mL.", "",
+      "### A.4 Doses extras (Tabela 7)", "",
+      tbl(["Volume da dose extra (mL)","Equivalente de levodopa (mg)"], [["0,10","17"],["0,15","25,5"],["0,20","34"],["0,25","42,5"],["0,30","51"]]), "",
+      "Máximo de 1 dose extra por hora. O uso de ≥ 5 doses extras em 24 h indica necessidade de revisão da taxa basal.", "",
+      "## Anexo B — Diário da doença de Parkinson (para anexação)", "",
+      "Registro em intervalos de 30 minutos, por 2 a 3 dias consecutivos imediatamente anteriores à consulta, classificando cada intervalo em: OFF · ON sem discinesia · ON com discinesia não incômoda · ON com discinesia incômoda · sono.", "",
+      tbl(["Dia","Data","OFF (h)","ON sem discinesia (h)","ON discinesia não incômoda (h)","ON discinesia incômoda (h)"],
+        [["1",BLANK,BLANK,BLANK,BLANK,BLANK],["2",BLANK,BLANK,BLANK,BLANK,BLANK],["3",BLANK,BLANK,BLANK,BLANK,BLANK],
+         ["**Média**","",Pn(c.off,1),Pn(c.onSem,1),BLANK,Pn(c.disc,1)]]), "",
+      "## Anexo C — Referências", "",
+      "1. AbbVie Farmacêutica Ltda. VYALEV® (foslevodopa/foscarbidopa hidratada) — Bula para o Profissional de Saúde. Registro Anvisa 1.9860.0023.",
+      "2. Agência Nacional de Vigilância Sanitária. Resolução-RE nº 2.105, de 22 de maio de 2026. DOU, Seção 1, 25 mai. 2026.",
+      "3. Soileau MJ, Aldred J, Budur K, et al. Safety and efficacy of continuous subcutaneous foslevodopa-foscarbidopa in patients with advanced Parkinson's disease: a randomised, double-blind, active-controlled, phase 3 trial. Lancet Neurol. 2022;21(12):1099-1109.",
+      "4. Aldred J, Freire-Alvarez E, Amelin AV, et al. Continuous subcutaneous foslevodopa/foscarbidopa in Parkinson's disease: safety and efficacy results from a 12-month, single-arm, open-label, phase 3 study. Neurol Ther. 2023;12(6):1937-1958.",
+      "5. Rosebraugh M, Voight EA, Moussa EM, et al. Foslevodopa/foscarbidopa: a new subcutaneous treatment for Parkinson's disease. Ann Neurol. 2021;90(1):52-61.",
+      "6. Postuma RB, Berg D, Stern M, et al. MDS clinical diagnostic criteria for Parkinson's disease. Mov Disord. 2015;30(12):1591-1601.",
+      "7. Antonini A, Stoessl AJ, Kleinman LS, et al. Developing consensus among movement disorder specialists on clinical indicators for identification and management of advanced Parkinson's disease. Curr Med Res Opin. 2018;34(12):2063-2073.",
+      "8. Antonini A, Odin P, Schmidt P, et al. Validation and clinical value of the MANAGE-PD tool. Parkinsonism Relat Disord. 2021;92:59-66.",
+      "9. Deuschl G, Antonini A, Costa J, et al. EAN/MDS-ES guideline on the treatment of Parkinson's disease: I. Invasive therapies. Eur J Neurol. 2022;29(9):2580-2595.",
+      "10. Olanow CW, Obeso JA, Stocchi F. Continuous dopamine-receptor treatment of Parkinson's disease. Lancet Neurol. 2006;5(8):677-687.",
+      "11. Jost ST, Kaldenbach MA, Antonini A, et al. Levodopa dose equivalency in Parkinson's disease: updated systematic review and proposals. Mov Disord. 2023;38(7):1236-1252.",
+      "12. Hauser RA, Deckers F, Lehert P. Parkinson's disease home diary: further validation and implications for clinical trials. Mov Disord. 2004;19(12):1409-1413.", "");
+    return m;
+  }
+
+  /* ---- 1) Relatório circunstanciado ---- */
+  function buildCirc(c){
+    var m = blocoCabecalho(c, "Relatório médico circunstanciado",
+      "Solicitação de tratamento com foslevodopa/foscarbidopa hidratada (VYALEV®) — infusão subcutânea contínua 24 horas/dia");
+    m.push("**Ref.:** Solicitação de fornecimento de foslevodopa/foscarbidopa hidratada (VYALEV®), solução injetável 240 mg/mL + 12 mg/mL, para infusão subcutânea contínua de 24 h/dia, em paciente com doença de Parkinson avançada.", "");
+
+    m = m.concat(blocoIdent(c));
+
+    m.push("## 2. Diagnóstico", "",
+      tbl(["Campo","Dado"], [
+        ["Diagnóstico principal","Doença de Parkinson — CID-10: G20; CID-11: 8A00.0"],
+        ["Forma clínica", P(V("l-forma"))],
+        ["Lado de início", P(V("l-lado"))],
+        ["Data do diagnóstico / tempo de doença", c.dxDate+" — "+c.dur],
+        ["Estágio Hoehn & Yahr", "ON: "+Pn(N("l-hy-on"),1)+" / OFF: "+Pn(N("l-hy-off"),1)],
+        ["Tempo de flutuações motoras", Pn(N("l-t-flut"),1,"anos")],
+        ["Tempo de discinesias", Pn(N("l-t-disc"),1,"anos")],
+        ["Comorbidades", P(V("l-comorb"))]
+      ]), "",
+      "**Critérios diagnósticos aplicados** (MDS Clinical Diagnostic Criteria, Postuma et al., 2015): parkinsonismo definido (bradicinesia associada a tremor de repouso e/ou rigidez), ausência de critérios de exclusão absolutos e de sinais de alerta não contrabalançados, com critérios de suporte presentes — em especial a resposta dramática e sustentada à levodopa.", "",
+      "**Responsividade à levodopa (requisito de bula):** melhora clínica sustentada e documentada com levodopa desde o início do tratamento"+
+      (N("l-teste-ld")!==null ? "; teste agudo de levodopa com melhora de **"+fmt(N("l-teste-ld"),0)+"%** no MDS-UPDRS Parte III, realizado em "+fmtDate(V("l-teste-dt"))+"." : "."), "",
+      tbl(["Exame","Resultado"], [
+        ["RM de encéfalo", P(V("l-rm"))],
+        ["DAT-SPECT / TRODAT (se realizado)", P(V("l-dat"))]
+      ]), "");
+
+    m.push("## 3. História clínica e evolução", "",
+      "### 3.1 História da doença atual", "",
+      V("l-hda") || "[ Descrever: sintomas inaugurais e data de início; progressão; início do tratamento dopaminérgico e resposta inicial; surgimento de deterioração de fim de dose, flutuações imprevisíveis, falhas de dose, acinesia matinal e noturna, discinesias de pico de dose e bifásicas; sintomas não motores relevantes; quedas; disfagia; impacto sobre atividades de vida diária e sobrecarga do cuidador ]", "",
+      "### 3.2 Situação clínica atual", "",
+      V("l-atual") || "[ Síntese objetiva: distribuição do dia entre períodos ON e OFF, previsibilidade das flutuações, repercussão funcional das discinesias, dependência para atividades de vida diária, quedas, hospitalizações e necessidade de supervisão contínua ]", "");
+
+    m.push("## 4. Caracterização de doença de Parkinson avançada", "");
+    m = m.concat(bloco521(c));
+
+    m.push("## 5. Avaliação clínica objetiva atual", "");
+    var esc5 = [
+      ["MDS-UPDRS Parte I", Pn(N("l-u1"),0)], ["MDS-UPDRS Parte II", Pn(N("l-u2"),0)],
+      ["MDS-UPDRS Parte III — ON", Pn(N("l-u3on"),0)], ["MDS-UPDRS Parte III — OFF", Pn(N("l-u3off"),0)],
+      ["MDS-UPDRS Parte IV", Pn(N("l-u4"),0)],
+      ["Hoehn & Yahr (ON / OFF)", Pn(N("l-hy-on"),1)+" / "+Pn(N("l-hy-off"),1)],
+      ["Schwab & England", Pn(N("l-se"),0,"%")], ["MoCA / MEEM", Pn(N("l-moca"),0)],
+      ["PDSS-2 (sono)", Pn(N("l-pdss"),0)], ["PDQ-39 (índice sumário)", Pn(N("l-pdq"),0)],
+      ["QUIP-RS", Pn(N("l-quip"),0)]
+    ];
+    m.push(tbl(["Instrumento","Escore"], esc5), "",
+      "Data das avaliações: "+fmtDate(V("l-esc-dt"))+".", "",
+      "Exames exigidos antes do início do tratamento: vitamina B12 "+Pn(N("l-b12"),0,"pg/mL")+
+      " · vitamina B6 "+P(V("l-b6"))+" · homocisteína "+P(V("l-homo"))+".", "");
+
+    m.push("## 6. Tratamento atual e otimização prévia", "");
+    m = m.concat(blocoMedsAtuais(c));
+    var otim = checkedItems("l-otim");
+    m.push("### Otimizações terapêuticas já realizadas", "");
+    m.push(tbl(["Estratégia","Realizada"], OTIM_ITENS.map(function(i){
+      return [i, ck(otim.indexOf(i)>=0)];
+    })), "");
+    if (V("l-otim-obs")) m.push("**Desfechos e motivos de falha ou suspensão:** "+V("l-otim-obs"), "");
+    m.push("### Conclusão quanto à refratariedade", "",
+      "Apesar do tratamento oral otimizado, conduzido por "+P(V("l-otim-tempo"))+", com uso documentado de "+
+      (otim.length?fmt(otim.length,0):BLANK)+" estratégias de otimização, o paciente mantém **"+Pn(c.off,1,"horas")+
+      " diárias de período OFF** e **"+Pn(c.disc,1,"horas")+" diárias de discinesia incômoda**, configurando doença de Parkinson avançada com controle sintomático inadequado pelas combinações orais disponíveis — exatamente a população-alvo definida na bula aprovada pela Anvisa e nos ensaios clínicos de fase 3 do medicamento ora solicitado. Tentativas adicionais de aumento das doses orais são limitadas por "+
+      (V("l-limite")||BLANK)+".", "");
+
+    m.push("## 7. Análise das demais terapias avançadas disponíveis", "");
+    m = m.concat(blocoTerapias(c, true));
+
+    m.push("## 8. Contraindicações, precauções e aptidão para o dispositivo", "");
+    var ciMarcadas = checkedItems("l-ci");
+    m.push("### 8.1 Contraindicações da bula — verificação", "");
+    m.push(tbl(["Contraindicação","Situação"], CI_ITENS.map(function(i){
+      return [i, ciMarcadas.indexOf(i)>=0 ? "☒ afastada" : "☐ a verificar"];
+    })), "");
+    if (V("l-oftalmo")) m.push("Avaliação oftalmológica em "+fmtDate(V("l-oftalmo"))+".", "");
+    if (V("l-dermato")) m.push("Avaliação dermatológica em "+fmtDate(V("l-dermato"))+".", "");
+    m.push("### 8.2 Aptidão para uso do sistema de administração", "");
+    var apt = checkedItems("l-apt");
+    m.push(tbl(["Requisito","Situação"], APT_ITENS.map(function(i){
+      return [i, apt.indexOf(i)>=0 ? "☒ atendido" : "☐ a verificar"];
+    })), "");
+
+    m.push("## 9. Medicamento solicitado — identificação e situação regulatória", "");
+    m = m.concat(blocoRegulatorio());
+
+    m.push("## 10. Prescrição, cálculo posológico e quantitativo solicitado", "");
+    m = m.concat(blocoPosologia(c, "###").slice(1));
+    m.push("### Prescrição", "");
+    m = m.concat(blocoPrescricao(c));
+    m = m.concat(blocoQuantitativo(c));
+    m.push("### Local e condições de início", "",
+      "O início do tratamento será realizado em ambiente médico/hospitalar, sob supervisão médica, conforme determina a bula, com conversão da terapia oral e treinamento formal do paciente e do cuidador quanto ao preparo da solução, manejo da bomba, técnica asséptica, seleção e rodízio dos locais de infusão e reconhecimento precoce de reações no local de aplicação.", "",
+      "Local previsto: "+P(V("l-local-ini"))+" · Data prevista: "+fmtDate(V("l-data-ini")), "");
+
+    m.push("## 11. Fundamentação científica", "",
+      "### 11.1 Racional farmacológico", "",
+      "A foslevodopa e a foscarbidopa são pró-fármacos monofosfatados da levodopa e da carbidopa, hidrossolúveis, rapidamente convertidos nas moléculas ativas por fosfatases alcalinas teciduais. A administração subcutânea contínua mantém concentrações plasmáticas estáveis de levodopa por 24 horas, contornando a absorção gastrointestinal errática associada ao retardo do esvaziamento gástrico da doença avançada e substituindo a estimulação dopaminérgica pulsátil por estimulação contínua — princípio fisiopatológico consolidado no manejo das complicações motoras (Olanow, Obeso & Stocchi, 2006; Rosebraugh et al., 2021).", "",
+      "### 11.2 Estudo pivotal M15-736 (Soileau et al., Lancet Neurology, 2022)", "",
+      "Ensaio de fase 3, randomizado, duplo-cego, duplo-simulado, controlado por ativo, 12 semanas, 141 pacientes com doença de Parkinson avançada:", "",
+      "- Tempo ON sem discinesia incômoda (desfecho primário): +2,72 h contra +0,97 h — diferença de 1,75 h (IC 95% 0,46–3,05; p = 0,0083);",
+      "- Tempo OFF: −2,75 h contra −0,96 h — diferença de −1,79 h (IC 95% −3,03 a −0,54; p = 0,0054);",
+      "- Acinesia matinal na semana 12: 17% no grupo de infusão contra 63% no grupo oral;",
+      "- Eventos adversos predominantemente relacionados ao local de infusão, em sua maioria não graves e de intensidade leve a moderada.", "",
+      "### 11.3 Estudo de extensão M15-741 (Aldred et al., Neurology and Therapy, 2023)", "",
+      "Ensaio de fase 3, aberto, braço único, 52 semanas, 244 pacientes:", "",
+      "- Redução média do tempo OFF de −3,5 h/dia (59% em relação ao basal; p ≤ 0,001);",
+      "- Aumento do tempo ON sem discinesia incômoda de +3,8 h/dia (p ≤ 0,001), sustentado da semana 1 à semana 52;",
+      "- Redução da acinesia matinal de 77,7% para 27,8% dos pacientes;",
+      "- Melhora significativa do sono (PDSS-2) e da qualidade de vida (PDQ-39 e EQ-5D-5L);",
+      "- Otimização inicial obtida em média de 3,5 visitas ambulatoriais, sem necessidade de procedimento cirúrgico.", "",
+      "### 11.4 Relevância clínica para o caso", "",
+      "Aplicados a este paciente, que registra "+Pn(c.off,1,"h/dia")+" de período OFF e "+Pn(c.disc,1,"h/dia")+
+      " de discinesia incômoda, os efeitos documentados nos ensaios pivotais representam ganho funcional clinicamente significativo — superior à diferença mínima clinicamente importante estabelecida para a doença de Parkinson avançada —, com impacto direto sobre autonomia, risco de quedas, qualidade do sono, sobrecarga do cuidador e possibilidade de manutenção do paciente em domicílio.", "");
+
+    m.push("## 12. Riscos decorrentes da não instituição do tratamento", "",
+      "Na ausência da terapia solicitada, e considerando esgotadas as alternativas orais, é esperada a manutenção e a progressão do quadro atual, com:", "",
+      "- persistência de "+Pn(c.off,1,"horas")+" diárias em estado OFF, com imobilidade, dor distônica e dependência para atividades básicas;",
+      "- risco aumentado de quedas e suas complicações (fraturas, traumatismo cranioencefálico, hospitalização);",
+      "- agravamento dos distúrbios do sono e dos sintomas não motores, com repercussão cognitiva e de humor;",
+      "- deterioração progressiva da qualidade de vida e sobrecarga crescente do cuidador, com risco de institucionalização;",
+      "- maior utilização de recursos de saúde (atendimentos de urgência, internações e reabilitação).", "");
+    if (V("l-risco")) m.push(V("l-risco"), "");
+
+    m.push("## 13. Plano de monitorização e critérios de reavaliação", "",
+      tbl(["Item","Periodicidade"], [
+        ["Consulta de titulação (fase de otimização)","Semanal a quinzenal nas primeiras 4 semanas"],
+        ["Consulta de manutenção com diário da DP e MDS-UPDRS","A cada 3 meses"],
+        ["Inspeção do local de infusão","A cada consulta e diariamente pelo paciente ou cuidador"],
+        ["Vitamina B12, B6, homocisteína, ácido metilmalônico e folato","Basal e a cada 3 a 6 meses"],
+        ["Função hepática, hematopoiética, renal e cardiovascular","Basal e a cada 6 meses"],
+        ["Pressão arterial deitada e ortostática","A cada consulta"],
+        ["Avaliação dermatológica (rastreio de melanoma)","Anual"],
+        ["Rastreio de transtorno do controle de impulsos e sintomas psicóticos","A cada consulta"],
+        ["Registro e notificação de eventos adversos (VigiMed/Anvisa)","Contínuo"]
+      ]), "",
+      "**Critérios de reavaliação ou suspensão:** ausência de benefício clínico sustentado após período adequado de titulação; reações ou infecções graves e recorrentes no local de infusão; psicose refratária; perda da capacidade de manejo do dispositivo sem cuidador disponível; contraindicação superveniente. A descontinuação, se necessária, será programada, com substituição por terapia dopaminérgica alternativa, evitando-se a retirada abrupta.", "");
+
+    m.push("## 14. Conclusão e declaração", "",
+      "Diante do exposto, atesto que o paciente **"+c.nome+"** é portador de doença de Parkinson avançada (CID-10 G20), responsiva à levodopa, com flutuações motoras graves e discinesias incômodas não controladas apesar de tratamento oral otimizado, preenchendo integralmente os critérios de indicação constantes da bula aprovada pela Anvisa para foslevodopa/foscarbidopa hidratada (VYALEV®), medicamento com registro sanitário vigente no Brasil (registro nº 1.9860.0023).", "",
+      "**Solicito**, portanto, a autorização e o fornecimento do medicamento e dos insumos discriminados no item 10, incluindo a bomba de infusão VYAFUSER™, de uso obrigatório e exclusivo para a administração do produto, em caráter contínuo, com reavaliação em "+P(V("l-reaval"))+".", "",
+      "Declaro que as informações aqui prestadas são verídicas, que decorrem do acompanhamento clínico direto do paciente e que assumo a responsabilidade técnica pela prescrição e pelo seguimento do tratamento, nos termos do Código de Ética Médica. Coloco-me à disposição para esclarecimentos adicionais e para discussão do caso com a auditoria médica.", "");
+
+    m = m.concat(blocoAssinatura(c));
+    m = m.concat(blocoAnexos(c));
+    return m.join("\n");
+  }
+
+  /* ---- 2) Solicitação resumida ---- */
+  function buildResumo(c){
+    var m = blocoCabecalho(c, "Solicitação de autorização — foslevodopa/foscarbidopa (VYALEV®)",
+      "Infusão subcutânea contínua de 24 h/dia em doença de Parkinson avançada");
+    m.push("## 1. Paciente e diagnóstico", "",
+      tbl(["Campo","Dado"], [
+        ["Nome", c.nome],
+        ["Data de nascimento / idade", c.nasc+" — "+c.idade],
+        ["Operadora / plano / carteirinha", P(V("l-plano"))+" — "+P(V("l-carteira"))],
+        ["Diagnóstico", "Doença de Parkinson — CID-10 G20"],
+        ["Tempo de doença", c.dur],
+        ["Hoehn & Yahr (ON / OFF)", Pn(N("l-hy-on"),1)+" / "+Pn(N("l-hy-off"),1)],
+        ["LEDD atual", c.ledd],
+        ["Responsividade à levodopa", "documentada e sustentada"+(N("l-teste-ld")!==null?" (melhora de "+fmt(N("l-teste-ld"),0)+"% no MDS-UPDRS III)":"")]
+      ]), "");
+
+    m.push("## 2. Caracterização de doença avançada", "");
+    m = m.concat(bloco521(c));
+
+    m.push("## 3. Falha do tratamento oral otimizado", "");
+    var otim = checkedItems("l-otim");
+    if (otim.length){ otim.forEach(function(i){ m.push("- "+i); }); m.push(""); }
+    m.push("Apesar de "+P(V("l-otim-tempo"))+" de tratamento oral otimizado, o paciente mantém "+Pn(c.off,1,"h/dia")+
+      " de período OFF e "+Pn(c.disc,1,"h/dia")+" de discinesia incômoda. Novos aumentos das doses orais são limitados por "+
+      (V("l-limite")||BLANK)+".", "");
+    if (V("l-otim-obs")) m.push(V("l-otim-obs"), "");
+
+    m.push("## 4. Demais terapias avançadas", "");
+    m = m.concat(blocoTerapias(c, false));
+
+    m.push("## 5. Prescrição e quantitativo", "");
+    m = m.concat(blocoPrescricao(c));
+    m = m.concat(blocoQuantitativo(c));
+
+    m.push("## 6. Conclusão", "",
+      "O paciente preenche integralmente os critérios da indicação aprovada pela Anvisa para VYALEV® (registro nº 1.9860.0023), não se tratando de uso off-label. **Solicito a autorização e o fornecimento** do medicamento e dos insumos acima, incluindo a bomba VYAFUSER™, em caráter contínuo, com reavaliação em "+P(V("l-reaval"))+".", "");
+    m = m.concat(blocoAssinatura(c));
+    m = m.concat(blocoAnexos(c));
+    return m.join("\n");
+  }
+
+  /* ---- 3) Receituário / prescrição ---- */
+  function buildReceita(c){
+    var m = ["# Receituário — foslevodopa/foscarbidopa (VYALEV®)", "",
+      "**Infusão subcutânea contínua de 24 horas/dia · uso adulto · uso contínuo**", "",
+      tbl(["Paciente","Dado"], [
+        ["Nome", c.nome],
+        ["Data de nascimento / idade", c.nasc+" — "+c.idade],
+        ["Registro / prontuário", c.reg],
+        ["Data da prescrição", fmtDate(c.dataDoc)]
+      ]), "", "---", "", "## Prescrição", ""];
+    m = m.concat(blocoPrescricao(c));
+    m.push("## Programação da bomba VYAFUSER™", "",
+      tbl(["Parâmetro","Valor programado"], [
+        ["Taxa basal contínua (24 h)", Pn(c.base,2,"mL/h")],
+        ["Equivalente horário", (c.base?fmt(c.base*CONC,0)+" mg de foslevodopa/h (≈ "+fmt(c.base*CONC/MW,0)+" mg de levodopa/h)":BLANK)],
+        ["Dose inicial (bolus de partida)", Pn(c.load,1,"mL")],
+        ["Dose extra", V("l-extra-on")==="não" ? "não habilitada" : Pn(c.extra,2,"mL")],
+        ["Intervalo mínimo entre doses extras", V("l-extra-on")==="não" ? "—" : Pn(N("l-lockout"),1,"h")],
+        ["Taxa alternativa BAIXA", V("l-taxa-baixa")==="sim" ? Pn(c.low,2,"mL/h") : "não programada"],
+        ["Taxa alternativa ALTA", V("l-taxa-alta")==="sim" ? Pn(c.high,2,"mL/h") : "não programada"],
+        ["Incremento de titulação", "0,01 mL/h (≈ 1,7 mg de levodopa/h)"],
+        ["Total diário entregue", (c.vol24?fmt(c.vol24,1)+" mL · "+fmt(c.foslevDay,0)+" mg de foslevodopa · ≈ "+fmt(c.ldDay,0)+" mg de levodopa":BLANK)]
+      ]), "");
+    m = m.concat(blocoQuantitativo(c));
+    m.push("## Orientações ao paciente e ao cuidador", "",
+      "- Suspender a levodopa oral programada e os inibidores da COMT ao iniciar a infusão. Manter levodopa/carbidopa de liberação imediata como resgate para interrupções ≥ 1 h.",
+      "- Sítio abdominal preferencial, evitando o raio de 5 cm ao redor do umbigo. Trocar a cânula e o sítio a cada ≤ 3 dias, mantendo distância ≥ 2,5 cm dos sítios usados nos 12 dias anteriores.",
+      "- Interrupção > 1 h: utilizar novo equipo e novo sítio. Interrupção > 3 h: considerar a dose de ataque na retomada.",
+      "- Conservar os frascos sob refrigeração entre 2 °C e 8 °C; não congelar. Não armazenar sobras do frasco.",
+      "- Procurar o serviço em caso de sinais de infecção no local de infusão, alucinações, sonolência diurna excessiva ou piora abrupta do estado motor.", "",
+      "Retorno para titulação: semanal a quinzenal nas primeiras 4 semanas. Reavaliação formal em "+P(V("l-reaval"))+".", "");
+    m = m.concat(blocoAssinatura(c));
+    return m.join("\n");
+  }
+
+  /* ---- 4) Relatório de acompanhamento ---- */
+  function buildAcomp(c){
+    var offB = N("l-fu-off-b"), onB = N("l-fu-on-b");
+    var dOff = (offB!==null && c.off!==null) ? c.off-offB : null;
+    var dOn  = (onB!==null && c.onSem!==null) ? c.onSem-onB : null;
+    var u3b = N("l-fu-u3-b"), u3a = N("l-fu-u3-a");
+    var m = blocoCabecalho(c, "Relatório de acompanhamento — foslevodopa/foscarbidopa (VYALEV®)",
+      "Reavaliação clínica e solicitação de manutenção do fornecimento");
+    m.push("## 1. Identificação e histórico do tratamento", "",
+      tbl(["Campo","Dado"], [
+        ["Nome", c.nome],
+        ["Data de nascimento / idade", c.nasc+" — "+c.idade],
+        ["Operadora / carteirinha", P(V("l-plano"))+" — "+P(V("l-carteira"))],
+        ["Diagnóstico", "Doença de Parkinson — CID-10 G20 · tempo de doença "+c.dur],
+        ["Início da infusão subcutânea", fmtDate(V("l-fu-inicio"))],
+        ["Tempo de tratamento", Pn(N("l-fu-meses"),0,"meses")]
+      ]), "");
+
+    m.push("## 2. Resposta ao tratamento", "",
+      tbl(["Desfecho","Antes da infusão","Atual","Variação"], [
+        ["Tempo OFF (h/dia)", Pn(offB,1), Pn(c.off,1),
+         dOff!==null ? (dOff>0?"+":"")+fmt(dOff,1)+" h" : BLANK],
+        ["ON sem discinesia incômoda (h/dia)", Pn(onB,1), Pn(c.onSem,1),
+         dOn!==null ? (dOn>0?"+":"")+fmt(dOn,1)+" h" : BLANK],
+        ["MDS-UPDRS Parte III", Pn(u3b,0), Pn(u3a,0),
+         (u3b!==null&&u3a!==null) ? (u3a-u3b>0?"+":"")+fmt(u3a-u3b,0)+" pontos" : BLANK],
+        ["Discinesia incômoda (h/dia)", BLANK, Pn(c.disc,1), BLANK],
+        ["LEDD total", BLANK, c.ledd, BLANK]
+      ]), "");
+    if (V("l-fu-desfecho")) m.push("**Avaliação global:** "+V("l-fu-desfecho")+".", "");
+    m.push(tbl(["Escala","Escore atual"], [
+      ["MDS-UPDRS I", Pn(N("l-u1"),0)], ["MDS-UPDRS II", Pn(N("l-u2"),0)],
+      ["MDS-UPDRS III — ON", Pn(N("l-u3on"),0)], ["MDS-UPDRS IV", Pn(N("l-u4"),0)],
+      ["Schwab & England", Pn(N("l-se"),0,"%")], ["PDSS-2", Pn(N("l-pdss"),0)],
+      ["PDQ-39", Pn(N("l-pdq"),0)], ["MoCA / MEEM", Pn(N("l-moca"),0)]
+    ]), "");
+
+    m.push("## 3. Programação atual da bomba", "",
+      tbl(["Parâmetro","Valor"], [
+        ["Taxa basal contínua", Pn(c.base,2,"mL/h")],
+        ["Dose inicial", Pn(c.load,1,"mL")],
+        ["Dose extra", V("l-extra-on")==="não" ? "não habilitada" : Pn(c.extra,2,"mL")],
+        ["Taxa alternativa BAIXA", V("l-taxa-baixa")==="sim" ? Pn(c.low,2,"mL/h") : "não programada"],
+        ["Taxa alternativa ALTA", V("l-taxa-alta")==="sim" ? Pn(c.high,2,"mL/h") : "não programada"],
+        ["Total diário entregue", (c.vol24?fmt(c.vol24,1)+" mL · "+fmt(c.foslevDay,0)+" mg de foslevodopa":BLANK)]
+      ]), "");
+
+    m.push("## 4. Segurança e tolerabilidade", "",
+      V("l-fu-eventos") || "[ Descrever eventos adversos observados, reações no local de infusão, sintomas neuropsiquiátricos, alterações laboratoriais e condutas adotadas ]", "",
+      "Monitorização laboratorial atual: vitamina B12 "+Pn(N("l-b12"),0,"pg/mL")+" · vitamina B6 "+P(V("l-b6"))+
+      " · homocisteína "+P(V("l-homo"))+".", "");
+
+    m.push("## 5. Conclusão e solicitação", "",
+      "O tratamento com foslevodopa/foscarbidopa em infusão subcutânea contínua mostrou-se "+
+      (V("l-fu-desfecho") || "[ eficaz e bem tolerado ]")+" neste paciente. **Solicito a manutenção do fornecimento** do medicamento e dos insumos, nas quantidades abaixo, com nova reavaliação em "+P(V("l-reaval"))+".", "");
+    m = m.concat(blocoQuantitativo(c));
+    m = m.concat(blocoAssinatura(c));
+    return m.join("\n");
+  }
+
+  /* ---- 5) Declaração sobre as demais terapias ---- */
+  function buildDecl(c){
+    var m = blocoCabecalho(c, "Declaração médica — análise das terapias assistidas por dispositivo",
+      "Justificativa da indicação de foslevodopa/foscarbidopa (VYALEV®) em detrimento das demais opções");
+    m.push("Declaro, na qualidade de médico assistente do paciente **"+c.nome+"** (nascido em "+c.nasc+
+      ", "+c.idade+"), portador de doença de Parkinson avançada (CID-10 G20) há "+c.dur+
+      ", que foram analisadas individualmente todas as terapias assistidas por dispositivo disponíveis para o seu quadro, conforme a diretriz da European Academy of Neurology / Movement Disorder Society — European Section (Deuschl et al., 2022), com as seguintes conclusões:", "");
+    m = m.concat(blocoTerapias(c, false));
+    m.push("## Fundamentação da escolha", "",
+      V("l-justif") || "[ Justificar por que a infusão subcutânea de foslevodopa/foscarbidopa é a opção mais adequada para este paciente ]", "",
+      "A foslevodopa/foscarbidopa é a única das terapias analisadas que dispensa procedimento cirúrgico, entrega levodopa de modo contínuo nas 24 horas do dia — cobrindo o período noturno e a acinesia matinal — e permite titulação individualizada em incrementos de aproximadamente 1,7 mg de levodopa por hora, com perfil de segurança sistêmica consistente com o das demais formulações de levodopa/carbidopa.", "",
+      "Registro, ainda, que o paciente foi informado sobre as alternativas, seus benefícios, riscos e limitações, e manifestou concordância com a conduta ora proposta.", "");
+    m = m.concat(blocoAssinatura(c));
+    m.push("", "---", "",
+      "::c ______________________________________________",
+      "::c **Ciência do paciente ou responsável legal**",
+      "::c Nome: "+c.nome+" — CPF: "+P(V("l-cpf")), "");
+    return m.join("\n");
+  }
+
+  var BUILDERS = {circ:buildCirc, resumo:buildResumo, receita:buildReceita, acomp:buildAcomp, decl:buildDecl};
+
+  /* ---- Markdown → HTML ---- */
+  function md2html(md){
+    var lines = md.split("\n"), out = [], i = 0;
+    function inline(s){
+      return esc(s)
+        .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
+        .replace(/`(.+?)`/g, "<code>$1</code>")
+        .replace(/&amp;nbsp;/g, "&nbsp;");
+    }
+    function mkTable(rows){
+      var h = "<table>", head = true;
+      rows.forEach(function(r){
+        var cells = r.trim().replace(/^\|/,"").replace(/\|$/,"").split("|");
+        if (cells.every(function(x){ return /^\s*:?-{2,}:?\s*$/.test(x); })){ head = false; return; }
+        h += "<tr>";
+        cells.forEach(function(x){
+          var t = inline(x.trim());
+          h += head ? "<th>"+t+"</th>" : "<td>"+t+"</td>";
+        });
+        h += "</tr>";
+      });
+      return h+"</table>";
+    }
+    while (i < lines.length){
+      var ln = lines[i];
+      if (/^\s*$/.test(ln)){ i++; continue; }
+      if (/^---+\s*$/.test(ln)){ out.push("<hr>"); i++; continue; }
+      var hm = /^(#{1,4})\s+(.*)$/.exec(ln);
+      if (hm){ out.push("<h"+hm[1].length+">"+inline(hm[2])+"</h"+hm[1].length+">"); i++; continue; }
+      if (/^::c\s?/.test(ln)){ out.push('<p class="ctr">'+inline(ln.replace(/^::c\s?/,""))+"</p>"); i++; continue; }
+      if (/^\s*>\s?/.test(ln)){
+        var q = [];
+        while (i<lines.length && /^\s*>\s?/.test(lines[i])){ q.push(lines[i].replace(/^\s*>\s?/,"")); i++; }
+        out.push("<blockquote>"+inline(q.join(" "))+"</blockquote>"); continue;
+      }
+      if (/^\s*\|/.test(ln)){
+        var tb = [];
+        while (i<lines.length && /^\s*\|/.test(lines[i])){ tb.push(lines[i]); i++; }
+        out.push(mkTable(tb)); continue;
+      }
+      if (/^\s*(-|\d+\.)\s+/.test(ln)){
+        var ol = /^\s*\d+\./.test(ln), items = [];
+        while (i<lines.length && /^\s*(-|\d+\.)\s+/.test(lines[i]) && !/^---+\s*$/.test(lines[i])){
+          items.push("<li>"+inline(lines[i].replace(/^\s*(-|\d+\.)\s+/,""))+"</li>"); i++;
+        }
+        out.push("<"+(ol?"ol":"ul")+">"+items.join("")+"</"+(ol?"ol":"ul")+">"); continue;
+      }
+      var pr = [];
+      while (i<lines.length && !/^\s*$/.test(lines[i]) && !/^\s*[|>#-]/.test(lines[i]) && !/^::c/.test(lines[i])){
+        pr.push(lines[i]); i++;
+      }
+      if (!pr.length){ pr.push(lines[i]); i++; }
+      out.push("<p>"+inline(pr.join(" "))+"</p>");
+    }
+    return out.join("\n");
+  }
+
+  /* ---- render ---- */
+  function renderLaudo(){
+    if (!$("laudo-form").children.length) return;
+    var c = laudoCtx();
+    // mostra no placeholder o valor herdado das outras abas, para o médico saber que já está coberto
+    var o = window.__calc||{}, tom = 0;
+    medsBody.querySelectorAll("tr").forEach(function(tr){ tom += parseFloat(tr.querySelector(".m-times").value)||0; });
+    $("l-tomadas").placeholder = tom ? fmt(tom,0)+" (da aba Infusão)" : "n";
+    $("l-dose-ini").placeholder = o.load ? fmt(o.load,1)+" (da aba Infusão)" : "mL";
+    var md = BUILDERS[laudoType](c);
+    window.__laudoMd = md;
+    $("laudo-doc").innerHTML = md2html(md);
+    var blanks = (md.match(/\[ \]|\[ __ \/ __ \/ ____ \]|\[ [^\]]{3,} \]/g)||[]).length;
+    var el = $("laudo-blanks");
+    el.className = "blank-note " + (blanks ? "pend" : "ok");
+    el.textContent = blanks
+      ? blanks+" campo(s) ainda em branco no documento — aparecem como [ ] e podem ser completados à mão."
+      : "Documento completo: nenhum campo em branco.";
+    updateGroupCounts();
+  }
+
+  function laudoFileName(){
+    var t = LAUDO_TYPES.filter(function(x){return x.id===laudoType;})[0];
+    var nome = (patientInfo().name||"paciente").toLowerCase()
+      .normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/[^a-z0-9]+/g,"-").replace(/^-|-$/g,"");
+    return "laudo-"+laudoType+"-"+nome+".md";
+  }
+
+  $("laudo-print").addEventListener("click", function(){
+    renderLaudo();
+    var r = $("report");
+    r.className = "laudo";
+    r.innerHTML = md2html(window.__laudoMd);
+    window.print();
+    setTimeout(function(){ r.className = ""; }, 500);
+  });
+  $("laudo-copy").addEventListener("click", function(){
+    var md = window.__laudoMd || "";
+    function done(){ var b=$("laudo-copy"); b.textContent="Copiado!"; setTimeout(function(){ b.textContent="Copiar texto"; },1600); }
+    if (navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(md).then(done, fallback);
+    } else fallback();
+    function fallback(){
+      var ta = document.createElement("textarea");
+      ta.value = md; ta.style.position="fixed"; ta.style.opacity="0";
+      document.body.appendChild(ta); ta.select();
+      try{ document.execCommand("copy"); done(); }catch(e){ alert("Não foi possível copiar automaticamente."); }
+      document.body.removeChild(ta);
+    }
+  });
+  $("laudo-dl").addEventListener("click", function(){
+    var blob = new Blob([window.__laudoMd||""], {type:"text/markdown;charset=utf-8"});
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(blob); a.download = laudoFileName();
+    document.body.appendChild(a); a.click();
+    setTimeout(function(){ URL.revokeObjectURL(a.href); document.body.removeChild(a); }, 500);
+  });
 
   /* ==================== RELATÓRIO / PDF ==================== */
   function buildReport(){
@@ -859,7 +1988,8 @@
     ["pt-name","pt-record","md-name","pt-birth","pt-dx","morning"].forEach(function(id){ $(id).value=""; });
     $("comt").value="1"; $("awake").value=16; $("regimen").value="24";
     $("high-pct").value=20; $("low-pct").value=20; $("extra").value="0.20";
-    renderPatient(); calcLedd(); calc();
+    laudoType = "circ"; buildLaudoForm(); laudoDefaults();
+    renderPatient(); calcLedd(); calc(); renderLaudo();
   });
   $("add-row").addEventListener("click", function(){ addRow("","","ir-cd"); });
   $("ledd-add").addEventListener("click", function(){ addLeddRow(); calcLedd(); });
@@ -872,9 +2002,12 @@
 
   /* ==================== INICIALIZAÇÃO ==================== */
   if (!loadState()) addRow("","","ir-cd");
+  if (!laudoBuilt) buildLaudoForm();
+  laudoDefaults();
   renderPatient();
   calcLedd();
   calc();
+  renderLaudo();
 })();
 </script>
 </body>
