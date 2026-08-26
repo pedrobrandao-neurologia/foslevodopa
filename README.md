@@ -6,7 +6,7 @@ Aplicativo de página única (`index.html`), sem dependências, sem servidor e s
 
 ## Funcionalidades
 
-O app é organizado em três abas:
+O app é organizado em quatro abas:
 
 ### 💉 Infusão
 Conversão da terapia oral com levodopa (± inibidor da COMT) para os parâmetros de programação da bomba:
@@ -30,6 +30,29 @@ Cálculo da dose equivalente diária de levodopa com os fatores de conversão de
 - Triexifenidil por tomadas eficazes (100 mg LED por tomada com melhora ≥ 5 pontos no UPDRS-III)
 - Total em mg/dia com detalhamento por classe farmacológica
 
+### 📄 Laudos
+Geração de cinco tipos de documento de prescrição e solicitação, já preenchidos com os dados das demais abas:
+
+| Documento | Uso |
+|---|---|
+| **Relatório circunstanciado** | Documento completo (14 seções + anexos) para operadora, auditoria médica, Secretaria de Saúde ou via judicial |
+| **Solicitação resumida** | 1–2 páginas para autorização prévia |
+| **Receituário / prescrição** | Prescrição da infusão, programação da bomba, insumos e quantitativo mensal |
+| **Relatório de acompanhamento** | Reavaliação após 3–6 meses, comparando desfechos antes e depois, para manutenção do fornecimento |
+| **Declaração — demais terapias** | Justificativa da exclusão de DBS, gel intestinal e apomorfina (o ponto mais contestado em auditoria) |
+
+O preenchimento é feito em grupos recolhíveis, cada um com contador de campos preenchidos; só aparecem os grupos que o documento escolhido usa. O que ficar em branco sai como `[ ]` no documento, e um contador informa quantos campos ainda faltam.
+
+Cálculos automáticos incluídos nos laudos:
+
+- **EL₁₆** (equivalentes de levodopa das 16 h de vigília) pela Tabela 4 da bula, com a tabela de origem detalhada linha a linha
+- **Faixa de taxa inicial** pela Tabela 5 da bula, com aviso quando a taxa prescrita cai fora da faixa ou excede o máximo de 1,04 mL/h
+- **Quantitativo mensal** de frascos, caixas, seringas, adaptadores e conjuntos de infusão, respeitando a regra de não armazenar sobras do frasco
+- **Critérios 5-2-1** avaliados a partir das tomadas diárias, das horas de OFF e das horas de discinesia incômoda
+- Dados regulatórios do VYALEV® (registro Anvisa, deferimento, conservação) e a fundamentação científica dos estudos M15-736 e M15-741
+
+Cada documento pode ser impresso ou salvo em PDF, copiado como texto ou baixado em Markdown.
+
 ### 👤 Paciente
 - Nome, registro/prontuário e médico prescritor
 - **Data de nascimento → idade** e **data do diagnóstico → tempo de doença**, calculados automaticamente
@@ -41,13 +64,16 @@ Abra o `index.html` em qualquer navegador moderno — ou acesse a versão public
 - Os cálculos são atualizados instantaneamente a cada campo preenchido.
 - **Salvamento automático**: todos os dados (paciente, medicações, aba ativa) ficam no `localStorage` do navegador e são restaurados ao reabrir a página. Nenhum dado sai do dispositivo.
 - **Exportar relatório em PDF** gera um documento para impressão com identificação do paciente (idade e tempo de doença), a terapia de origem, os parâmetros da bomba, a tabela de LEDD e as orientações de uso — via diálogo de impressão do navegador.
+- Na aba Laudos, **Imprimir / PDF**, **Copiar texto** e **Baixar .md** exportam o documento escolhido.
 - **Limpar tudo** apaga os dados salvos (com confirmação).
 
 ## Fórmulas principais
 
 ```
 Taxa basal (mL/h) = [(TLD × 1,3) ÷ 240 mg/mL] ÷ horas de vigília
+EL₁₆ (mg)         = TLD ÷ horas de vigília × 16
 LEDD total (mg/dia) = Σ LED de cada fármaco (fatores de Jost et al. 2023)
+Frascos/dia       = arredondamento para cima de (taxa basal × 24 h) ÷ 10 mL
 ```
 
 TLD = dose total de levodopa na vigília, em equivalentes de levodopa IR, excluindo doses de resgate e noturnas, ajustada para inibidor da COMT quando aplicável.
