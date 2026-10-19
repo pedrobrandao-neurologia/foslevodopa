@@ -114,6 +114,33 @@
 
   .autosave{font-family:var(--mono);font-size:11px;color:var(--ink-soft);margin-top:10px}
 
+  /* ---------- MANAGE-PD ---------- */
+  .seg{display:flex;flex-wrap:wrap;gap:6px}
+  .seg button{border:1px solid var(--line);background:#fff;border-radius:6px;padding:7px 12px;font-size:13px;
+    cursor:pointer;font-family:var(--sans);color:var(--ink);text-align:left}
+  .seg button:hover{border-color:var(--accent)}
+  .seg button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+  .seg button .sc{font-family:var(--mono);font-size:11px;opacity:.75;margin-right:6px}
+  .mq{padding:13px 0;border-bottom:1px solid var(--line)}
+  .mq:last-child{border-bottom:none}
+  .mq .qt{font-size:13.5px;margin-bottom:8px}
+  .mq .qt b{font-family:var(--mono);color:var(--accent);margin-right:6px}
+  .mq .sub{font-size:12.5px;color:var(--ink-soft);margin:8px 0 6px}
+  .mq.skip{opacity:.5}
+  .mq.skip .seg{pointer-events:none}
+  .sc-out{font-family:var(--mono);font-size:12px;color:var(--ink-soft);margin-top:7px}
+  .sc-out.hit{color:var(--danger);font-weight:600}
+  .mgrp{margin-top:6px;margin-bottom:16px;border:1px solid var(--line);border-radius:8px;padding:2px 14px}
+  .mgrp-rule{font-size:11.5px;font-family:var(--mono);color:var(--accent-deep);background:#E8F5F6;
+    border-radius:6px;padding:7px 10px;margin:10px 0 4px}
+  .sug{font-size:12px;color:var(--accent);margin-top:7px}
+  .sug button{background:none;border:none;color:var(--accent);text-decoration:underline;cursor:pointer;
+    font-family:var(--sans);font-size:12px;padding:0 0 0 4px}
+  .mpd-txt{font-size:13.5px;color:#CFE8EA;margin-top:8px;max-width:640px}
+  .mpd-txt li{margin-left:18px;margin-top:3px}
+  nav.tabs{overflow-x:auto}
+  nav.tabs button{min-width:100px;white-space:nowrap}
+
   /* ---------- LAUDOS ---------- */
   .type-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px}
   .type-card{border:1px solid var(--line);border-radius:8px;padding:12px 14px;background:#fff;cursor:pointer;
@@ -215,6 +242,7 @@
 <nav class="tabs" role="tablist">
   <button type="button" id="tab-btn-inf" class="active" data-tab="inf"><span class="t-ico">Bomba</span>Infusão</button>
   <button type="button" id="tab-btn-ledd" data-tab="ledd"><span class="t-ico">Σ mg/dia</span>LEDD total</button>
+  <button type="button" id="tab-btn-mpd" data-tab="mpd"><span class="t-ico">Triagem</span>MANAGE-PD</button>
   <button type="button" id="tab-btn-laudo" data-tab="laudo"><span class="t-ico">Documentos</span>Laudos</button>
   <button type="button" id="tab-btn-pt" data-tab="pt"><span class="t-ico">Registro</span>Paciente</button>
 </nav>
@@ -391,6 +419,53 @@
 </section>
 </div><!-- /pane-inf -->
 
+<!-- ==================== ABA MANAGE-PD ==================== -->
+<div class="tab-pane" id="pane-mpd">
+<section class="card">
+  <h2>MANAGE-PD — triagem para terapias assistidas por dispositivo</h2>
+  <p class="hint"><em>Making Informed Decisions to Aid Timely Management of Parkinson's Disease</em> (Antonini et al., 2021). Identifica pacientes com controle inadequado no regime oral atual. <strong>Avaliar os sintomas com base no último mês.</strong> A categoria é calculada automaticamente; clicar de novo numa resposta a desmarca.</p>
+  <div class="grid g2">
+    <div><label for="mpd-data">Data da avaliação</label><input type="date" id="mpd-data"></div>
+    <div><label>Paciente (aba Paciente)</label><div id="mpd-pt" class="muted" style="padding-top:8px"></div></div>
+  </div>
+</section>
+
+<section class="card">
+  <h2><span class="step">SEÇÃO 1</span> Rastreio</h2>
+  <div id="mpd-s1"></div>
+</section>
+
+<section class="card">
+  <h2><span class="step">SEÇÃO 2</span> Frequência e gravidade dos sintomas</h2>
+  <p class="hint">Somente para pacientes com ≥ 4 doses diárias de levodopa encaminhados pela Seção 1. Respostas desconhecidas podem ser deixadas em branco — contam como zero (sintoma ausente). Vale a categoria mais alta atingida em qualquer pergunta.</p>
+  <div id="mpd-s2"></div>
+</section>
+
+<div class="pump" id="mpd-result"></div>
+
+<section class="card">
+  <details class="fg" style="margin:0">
+    <summary>Definições dos termos (formulário original)</summary>
+    <div class="fg-body" style="font-size:12.5px;color:var(--ink-soft)">
+      <p><strong>Período “off”:</strong> os sintomas de Parkinson tornam-se mais perceptíveis (movimento mais difícil, lento ou rígido), muitas vezes após um benefício inicial do tratamento.</p>
+      <p style="margin-top:6px"><strong>Flutuações motoras imprevisíveis:</strong> recorrência súbita e imprevisível dos sintomas (lentidão, rigidez), geralmente não relacionada com a próxima dose (flutuações “on-off”).</p>
+      <p style="margin-top:6px"><strong>Discinesia incômoda:</strong> movimentos involuntários induzidos por medicamentos dopaminérgicos que interferem nas atividades diárias — bruscos, inquietantes, de torção ou rotação.</p>
+      <p style="margin-top:6px"><strong>Distonia dolorosa:</strong> contrações musculares sustentadas ou intermitentes e involuntárias causando movimentos e/ou posturas anormais, muitas vezes repetitivos.</p>
+      <p style="margin-top:6px"><strong>Congelamento da marcha:</strong> ausência breve e episódica ou redução acentuada da progressão dos pés apesar da intenção de caminhar.</p>
+      <p style="margin-top:6px"><strong>Sintomas não motores de período “off”:</strong> presentes exclusivamente ou piores durante o “off” motor — humor, cognição, alucinações, disautonomia (hipotensão ortostática, sudorese), sono, gastrointestinais e urinários.</p>
+      <p style="margin-top:6px"><strong>Transtornos de controle de impulso:</strong> comportamentos repetitivos, excessivos e compulsivos — jogo patológico, hipersexualidade, compras e compulsão alimentar.</p>
+      <p style="margin-top:6px"><strong>Alucinação/psicose sem percepção:</strong> alucinações (mais comumente visuais, mas também auditivas, táteis ou olfativas) em que se perde o reconhecimento de que são alucinações.</p>
+    </div>
+  </details>
+  <div class="actions" style="margin-top:16px">
+    <button class="btn btn-primary" id="mpd-print" type="button">Imprimir ficha MANAGE-PD</button>
+    <button class="btn btn-ghost" id="mpd-laudo" type="button">Abrir na aba Laudos</button>
+    <button class="btn btn-ghost" id="mpd-clear" type="button">Limpar triagem</button>
+  </div>
+  <p class="muted" style="margin-top:12px;font-size:11px">MANAGE-PD © 2020 AbbVie Deutschland GmbH &amp; Co. KG, em colaboração com a Parkinson's Foundation — versão em português ABBV-BR-00741-E (maio/2024). Ferramenta de triagem para profissionais de saúde; não indica o tipo de terapia assistida por dispositivo e não substitui o julgamento clínico. Antonini A, et al. Parkinsonism Relat Disord. 2021;92:59-66.</p>
+</section>
+</div><!-- /pane-mpd -->
+
 <!-- ==================== ABA LAUDOS ==================== -->
 <div class="tab-pane" id="pane-laudo">
 <section class="card">
@@ -516,10 +591,11 @@
   var tabButtons = document.querySelectorAll("nav.tabs button");
   function showTab(tab){
     tabButtons.forEach(function(b){ b.classList.toggle("active", b.dataset.tab===tab); });
-    ["inf","ledd","laudo","pt"].forEach(function(t){
+    ["inf","ledd","mpd","laudo","pt"].forEach(function(t){
       $("pane-"+t).classList.toggle("active", t===tab);
     });
     if (tab==="laudo") renderLaudo();
+    if (tab==="mpd") renderMpd();
     saveState();
   }
   tabButtons.forEach(function(b){
@@ -793,7 +869,14 @@
   var saveTimer = null;
   function saveState(){
     clearTimeout(saveTimer);
-    saveTimer = setTimeout(function(){
+    saveTimer = setTimeout(writeState, 250);
+  }
+  // grava na hora o que estiver pendente quando a página é fechada ou recarregada
+  window.addEventListener("pagehide", function(){
+    if (saveTimer){ clearTimeout(saveTimer); writeState(); }
+  });
+  function writeState(){
+      saveTimer = null;
       try{
         var meds = [];
         medsBody.querySelectorAll("tr").forEach(function(tr){
@@ -814,6 +897,7 @@
         var st = {
           tab: activeTab(),
           laudo: laudo,
+          mpd: mpd,
           patient: {name:$("pt-name").value, record:$("pt-record").value, md:$("md-name").value,
                     birth:$("pt-birth").value, dx:$("pt-dx").value},
           inf: {regimen:$("regimen").value, awake:$("awake").value, comt:$("comt").value,
@@ -826,7 +910,6 @@
         $("autosave-note").textContent = "Salvo automaticamente neste navegador às "+
           now.toLocaleTimeString("pt-BR",{hour:"2-digit",minute:"2-digit",second:"2-digit"});
       }catch(e){/* armazenamento indisponível — segue sem salvar */}
-    }, 250);
   }
 
   function loadState(){
@@ -857,8 +940,21 @@
       Object.keys(st.laudo.checks||{}).forEach(function(k){ if ($(k)) $(k).checked = st.laudo.checks[k]; });
       laudoBuilt = true;
     }
+    if (st.mpd){
+      mpd = mpdVazio();
+      Object.keys(st.mpd).forEach(function(k){ mpd[k] = st.mpd[k]; });
+      mpd.s2 = mpd.s2 || {};
+    }
     if (st.tab) showTab(st.tab);
     return true;
+  }
+
+  function mpdDefaults(){
+    if (!mpd.data){
+      var d = new Date();
+      mpd.data = d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+    }
+    $("mpd-data").value = mpd.data;
   }
 
   function laudoDefaults(){
@@ -869,13 +965,316 @@
     if (!V("l-dias")) $("l-dias").value = "3";
   }
 
+  /* ==================== MANAGE-PD ==================== */
+  /* Antonini et al., Parkinsonism Relat Disord 2021 — regras do formulário ABBV-BR-00741-E.
+     Seção 1: ≤3 doses → Cat 1 (NÃO a tudo) ou Cat 2 (algum SIM); 4 doses → Cat 1 ou Seção 2;
+     ≥5 doses → Seção 2. Seção 2: categoria mínima 2; vale a mais alta atingida. */
+  var MPD_FREQ = [[0,"Nunca"],[1,"Raramente (≤ 1/semana)"],[2,"Às vezes (várias vezes/semana)"],[3,"A maior parte/todo o tempo (diariamente)"]];
+  var MPD_SEV  = [[1,"Leve"],[2,"Moderado"],[3,"Grave"]];
+  var MPD_Q1   = [["le3","≤ 3 doses"],["4","4 doses"],["ge5","≥ 5 doses"]];
+  var MPD_SN   = [["nao","NÃO"],["sim","SIM"]];
+  var MPD_S1 = [
+    {id:"q2", n:2, curto:"≥ 2 h/dia de período “off”",
+     txt:"O paciente está tendo um total de ≥ 2 horas diárias de período “off”?"},
+    {id:"q3", n:3, curto:"Flutuações motoras imprevisíveis",
+     txt:"O paciente está apresentando flutuações motoras imprevisíveis com o tratamento oral atual?"},
+    {id:"q4", n:4, curto:"Discinesia incômoda",
+     txt:"O paciente está apresentando discinesia incômoda (movimentos coreicos ou distônicos involuntários) com o tratamento oral atual?"},
+    {id:"q5", n:5, curto:"Limitação em atividades da vida diária",
+     txt:"O paciente está atualmente limitado em realizar uma ou mais atividades da vida diária (escrever, caminhar, tomar banho, vestir-se, comer, ir ao banheiro etc.)?"}
+  ];
+  var MPD_S2 = [
+    {id:"flut", g:"A", title:"Flutuações motoras", skip:"q3",
+     fq:"Com que frequência as flutuações motoras são imprevisíveis?",
+     sq:"Quão graves/incômodas são as flutuações motoras?"},
+    {id:"cong", g:"A", title:"Congelamento da marcha",
+     fq:"Com que frequência o paciente apresenta congelamento da marcha durante o período “off”?",
+     sq:"Qual é a gravidade/desconforto dos episódios de congelamento da marcha durante o período “off”?"},
+    {id:"nm", g:"A", title:"Sintomas não motores de período “off”",
+     fq:"Com que frequência o paciente apresenta sintomas não motores típicos de período “off” (ansiedade, dor, alterações de humor, sono etc.)?",
+     sq:"Quão graves/incômodos são os sintomas não motores de período “off”?"},
+    {id:"aluc", g:"A", title:"Alucinação/psicose sem percepção",
+     fq:"Com que frequência o paciente apresenta alucinação/psicose sem percepção (sem crítica)?",
+     sq:"Quão graves/incômodos são os episódios de alucinação/psicose sem percepção?"},
+    {id:"off", g:"B", title:"Tempo “off”", skip:"q2",
+     q:"Quão graves/incômodos são os períodos “off” com o tratamento oral atual?", opts:MPD_SEV},
+    {id:"disc", g:"B", title:"Discinesia", skip:"q4",
+     q:"Com que frequência o paciente apresenta discinesia incômoda?", opts:MPD_FREQ},
+    {id:"avd", g:"B", title:"Comprometimento das AVD", skip:"q5",
+     q:"Que nível de assistência ou apoio o paciente necessita para realizar uma ou mais atividades da vida diária?",
+     opts:[[0,"Independente em todas as atividades"],[1,"Independente na maioria das atividades"],
+           [2,"Necessita de auxílio/dependente em algumas atividades"],[3,"Totalmente dependente em todas as atividades"]]},
+    {id:"quedas", g:"C", title:"Quedas",
+     q:"Qual a frequência de quedas do paciente no último mês?", opts:[[0,"Sem quedas"],[1,"1 queda"],[2,"2 ou mais quedas"]]},
+    {id:"dist", g:"I", title:"Distonia dolorosa",
+     fq:"Com que frequência o paciente apresenta distonia dolorosa?", sq:"Quão grave/incômoda é a distonia dolorosa?"},
+    {id:"tci", g:"I", title:"Transtorno de controle de impulso (TCI)",
+     fq:"Com que frequência o paciente apresenta transtorno de controle de impulso?", sq:"Quão grave/incômoda é a deficiência devido ao TCI?"}
+  ];
+  var MPD_GRP = {
+    A:{lim:3, crit:"≥ 3", regra:"Pontuação (frequência × gravidade) ≥ 3 em qualquer destas perguntas = Categoria 3; menor que 3 = Categoria 2"},
+    B:{lim:2, crit:"2 ou 3", regra:"Pontuação 2 ou 3 em qualquer destas perguntas = Categoria 3; menor que 2 = Categoria 2"},
+    C:{lim:1, crit:"1 ou 2", regra:"Pontuação 1 ou 2 = Categoria 3; sem quedas = Categoria 2"},
+    I:{lim:null, crit:"informativo", regra:"Apenas informativo — considerar na decisão terapêutica, mas não altera a categoria"}
+  };
+  var MPD_INTERP = {
+    1:"O paciente pode estar controlado com o regime de tratamento atual. Continuar o monitoramento com base no melhor tratamento médico e no julgamento profissional/diretrizes clínicas.",
+    2:"O paciente pode não estar controlado com o regime de tratamento atual, mas benefícios adicionais podem ser obtidos com maior otimização do tratamento. Terapias auxiliadas por dispositivo podem não ser necessárias neste momento.",
+    3:"O paciente pode não estar controlado com o regime de tratamento atual e pode se beneficiar de terapia auxiliada por dispositivo. Sugere-se avaliar a elegibilidade com base no histórico médico, na preferência de tratamento e no julgamento médico."
+  };
+  function mpdVazio(){ return {q1:"", q2:"", q3:"", q4:"", q5:"", s2:{}, data:""}; }
+  var mpd = mpdVazio();
+
+  function mpdLabel(opts, v){
+    var o = opts.filter(function(x){ return String(x[0])===String(v); })[0];
+    return o ? o[1] : "";
+  }
+
+  function mpdCompute(){
+    var r = {cat:null, s2:false, falta:[], itens:[], gatilhos:[], avisos:[], assumidos:0, info:[]};
+    if (!mpd.q1) r.falta.push("pergunta 1");
+    MPD_S1.forEach(function(q){ if (!mpd[q.id]) r.falta.push("pergunta "+q.n); });
+    if (r.falta.length) return r;
+    var nSim = MPD_S1.filter(function(q){ return mpd[q.id]==="sim"; }).length;
+    if (mpd.q1==="le3"){
+      r.cat = nSim ? 2 : 1;
+      r.rota = nSim ? "≤ 3 doses diárias com SIM em ao menos uma pergunta → Categoria 2"
+                    : "≤ 3 doses diárias e NÃO para todas as perguntas → Categoria 1";
+      return r;
+    }
+    if (mpd.q1==="4" && !nSim){
+      r.cat = 1; r.rota = "4 doses diárias e NÃO para todas as perguntas → Categoria 1";
+      return r;
+    }
+    r.s2 = true; r.cat = 2;
+    r.rota = mpd.q1==="4" ? "4 doses diárias com SIM em ao menos uma pergunta → Seção 2"
+                          : "≥ 5 doses diárias de levodopa → avaliação detalhada na Seção 2";
+    MPD_S2.forEach(function(it){
+      var a = mpd.s2[it.id]||{}, o = {it:it, score:null};
+      if (it.skip && mpd[it.skip]!=="sim"){ o.pulado = true; r.itens.push(o); return; }
+      if (it.fq){
+        o.f = a.f; o.s = a.s;
+        if (a.f===undefined){ o.score = 0; o.assumido = true; }
+        else if (a.f===0) o.score = 0;
+        else if (a.s===undefined){
+          o.score = 0; o.incompleto = true;
+          r.avisos.push(it.title+": frequência marcada sem gravidade — pontuação considerada 0 até completar.");
+        }
+        else o.score = a.f*a.s;
+      } else {
+        o.v = a.v;
+        if (a.v===undefined){ o.score = 0; o.assumido = true; } else o.score = a.v;
+      }
+      if (o.assumido && it.g!=="I") r.assumidos++;
+      var lim = MPD_GRP[it.g].lim;
+      if (lim!==null && o.score>=lim){ o.hit = true; r.cat = 3; r.gatilhos.push(it.title+" ("+o.score+")"); }
+      if (it.g==="I" && o.score>0) r.info.push(it.title+": "+o.score);
+      r.itens.push(o);
+    });
+    return r;
+  }
+
+  /* ---- interface ---- */
+  function segHtml(key, opts, cur, comEscore){
+    return '<div class="seg" data-k="'+key+'">'+opts.map(function(o){
+      return '<button type="button" data-v="'+o[0]+'"'+(cur!==undefined && cur!=="" && String(cur)===String(o[0])?' class="on"':'')+'>'+
+             (comEscore?'<span class="sc">'+o[0]+'</span>':'')+esc(o[1])+'</button>';
+    }).join("")+'</div>';
+  }
+
+  function mpdIniciais(nome){
+    return (nome||"").split(/\s+/).filter(function(p){ return p && !/^(d[aeo]s?|e)$/i.test(p); })
+      .map(function(p){ return p.charAt(0).toUpperCase()+"."; }).join("");
+  }
+
+  function mpdSugestoes(){
+    var s = {}, tom = 0;
+    medsBody.querySelectorAll("tr").forEach(function(tr){ tom += parseFloat(tr.querySelector(".m-times").value)||0; });
+    if (tom) s.q1 = {v: tom<=3?"le3":tom===4?"4":"ge5", txt: fmt(tom,0)+" tomadas/dia na aba Infusão"};
+    var off = $("l-off") ? N("l-off") : null, disc = $("l-disc") ? N("l-disc") : null;
+    if (off!==null) s.q2 = {v: off>=2?"sim":"nao", txt: fmt(off,1)+" h/dia de OFF informadas na aba Laudos"};
+    if (disc!==null) s.q4 = {v: disc>0?"sim":"nao", txt: fmt(disc,1)+" h/dia de discinesia incômoda informadas na aba Laudos"};
+    return s;
+  }
+  function sugHtml(sug, key, opts){
+    if (!sug || String(mpd[key])===String(sug.v)) return "";
+    return '<div class="sug">Sugestão pelas outras abas: <strong>'+esc(mpdLabel(opts, sug.v))+'</strong> ('+esc(sug.txt)+')'+
+           '<button type="button" data-apply="'+key+'" data-v="'+sug.v+'">aplicar</button></div>';
+  }
+
+  function renderMpd(){
+    var p = patientInfo();
+    $("mpd-pt").textContent = p.name
+      ? mpdIniciais(p.name)+" · "+(p.age!==null?p.age+" anos":"idade não informada")+(p.record?" · ID "+p.record:"")
+      : "Preencha a aba Paciente (nome, data de nascimento e registro).";
+    var sug = mpdSugestoes();
+
+    var h = '<div class="mq"><div class="qt"><b>1.</b>Quantas doses diárias de levodopa o paciente relata tomar?</div>'+
+            segHtml("q1", MPD_Q1, mpd.q1)+sugHtml(sug.q1, "q1", MPD_Q1)+'</div>';
+    MPD_S1.forEach(function(q){
+      h += '<div class="mq"><div class="qt"><b>'+q.n+'.</b>'+esc(q.txt)+'</div>'+
+           segHtml(q.id, MPD_SN, mpd[q.id])+sugHtml(sug[q.id], q.id, MPD_SN)+'</div>';
+    });
+    $("mpd-s1").innerHTML = h;
+
+    var r = mpdCompute();
+    if (!r.s2){
+      $("mpd-s2").innerHTML = '<p class="muted">'+(r.falta.length
+        ? "Responda à Seção 1 para saber se a Seção 2 é necessária."
+        : "Não aplicável — a categoria foi definida na Seção 1 ("+esc(r.rota)+").")+'</p>';
+    } else {
+      var s = "", porId = {};
+      r.itens.forEach(function(o){ porId[o.it.id] = o; });
+      ["A","B","C","I"].forEach(function(g){
+        s += '<div class="mgrp">';
+        MPD_S2.filter(function(it){ return it.g===g; }).forEach(function(it){
+          var o = porId[it.id], a = mpd.s2[it.id]||{};
+          var skipTxt = o.pulado ? ' <span class="fg-count">pulado — pergunta '+it.skip.slice(1)+' da Seção 1 = NÃO</span>' : '';
+          s += '<div class="mq'+(o.pulado?" skip":"")+'"><div class="qt"><strong>'+esc(it.title)+'</strong>'+skipTxt+'</div>';
+          if (it.fq){
+            s += '<div class="sub">'+esc(it.fq)+'</div>'+segHtml("s2."+it.id+".f", MPD_FREQ, a.f, true)+
+                 '<div class="sub">'+esc(it.sq)+'</div>'+segHtml("s2."+it.id+".s", MPD_SEV, a.s, true);
+          } else {
+            s += '<div class="sub">'+esc(it.q)+'</div>'+segHtml("s2."+it.id+".v", it.opts, a.v, true);
+          }
+          if (!o.pulado){
+            var det = it.fq ? (o.incompleto ? "falta a gravidade" : (o.assumido ? "não informado — considerado 0" :
+                     (a.f===0 ? "0" : a.f+" × "+a.s+" = "+o.score))) : (o.assumido ? "não informado — considerado 0" : String(o.score));
+            s += '<div class="sc-out'+(o.hit?" hit":"")+'">Pontuação: '+esc(det)+
+                 (o.hit ? " → Categoria 3" : "")+'</div>';
+          }
+          s += '</div>';
+        });
+        s += '<div class="mgrp-rule">'+esc(MPD_GRP[g].regra)+'</div></div>';
+      });
+      $("mpd-s2").innerHTML = s;
+    }
+
+    var res = '<div class="p-label">Resultado MANAGE-PD</div>';
+    if (!r.cat){
+      res += '<div class="p-main"><span class="p-value">—</span></div>'+
+             '<div class="p-equiv">Faltam: '+esc(r.falta.join(", "))+'</div>';
+    } else {
+      res += '<div class="p-main"><span class="p-value">'+r.cat+'</span><span class="p-unit">categoria</span></div>'+
+             '<div class="p-equiv">'+esc(r.rota)+'</div>'+
+             '<div class="mpd-txt">'+esc(MPD_INTERP[r.cat])+'</div>';
+      var extra = [];
+      if (r.gatilhos.length) extra.push("Itens que determinaram a Categoria 3: "+r.gatilhos.join("; "));
+      if (r.info.length) extra.push("Informativos (não alteram a categoria): "+r.info.join("; "));
+      if (r.s2 && r.assumidos) extra.push(r.assumidos+" item(ns) da Seção 2 sem resposta, considerado(s) 0");
+      r.avisos.forEach(function(a){ extra.push(a); });
+      if (extra.length) res += '<ul class="mpd-txt">'+extra.map(function(x){ return "<li>"+esc(x)+"</li>"; }).join("")+'</ul>';
+    }
+    $("mpd-result").innerHTML = res;
+    window.__mpd = r;
+  }
+
+  function mpdSet(key, v){
+    var parts = key.split(".");
+    if (parts[0]==="s2"){
+      var id = parts[1], campo = parts[2], num = parseInt(v,10);
+      var a = mpd.s2[id] || (mpd.s2[id] = {});
+      if (a[campo]===num) delete a[campo]; else a[campo] = num;
+    } else {
+      mpd[key] = (mpd[key]===v) ? "" : v;
+    }
+    renderMpd(); saveState();
+  }
+
+  $("pane-mpd").addEventListener("click", function(ev){
+    var ap = ev.target.closest("[data-apply]");
+    if (ap){ mpd[ap.dataset.apply] = ap.dataset.v; renderMpd(); saveState(); return; }
+    var b = ev.target.closest(".seg button");
+    if (!b) return;
+    mpdSet(b.parentNode.dataset.k, b.dataset.v);
+  });
+  $("mpd-data").addEventListener("input", function(){ mpd.data = $("mpd-data").value; saveState(); });
+  $("mpd-clear").addEventListener("click", function(){
+    if (!confirm("Limpar as respostas da triagem MANAGE-PD?")) return;
+    var d = mpd.data; mpd = mpdVazio(); mpd.data = d;
+    renderMpd(); saveState();
+  });
+  $("mpd-print").addEventListener("click", function(){
+    renderMpd();
+    var r = $("report");
+    r.className = "laudo";
+    r.innerHTML = md2html(buildManage(laudoCtx()));
+    window.print();
+    setTimeout(function(){ r.className = ""; }, 500);
+  });
+  $("mpd-laudo").addEventListener("click", function(){
+    laudoType = "manage";
+    $("laudo-types").querySelectorAll(".type-card").forEach(function(x){ x.classList.toggle("sel", x.dataset.type==="manage"); });
+    applyTypeVisibility();
+    showTab("laudo");
+  });
+
+  /* ---- blocos de laudo ---- */
+  function mpdTabelas(c){
+    var r = c.mpd, out = {s1:[], s2:[], res:[]};
+    out.s1.push(tbl(["Seção 1 — pergunta","Resposta"], [
+      ["1. Doses diárias de levodopa", mpdLabel(MPD_Q1, mpd.q1)||BLANK]
+    ].concat(MPD_S1.map(function(q){ return [q.n+". "+q.curto, mpdLabel(MPD_SN, mpd[q.id])||BLANK]; }))), "");
+    if (r.rota) out.s1.push("Encaminhamento: "+r.rota+".", "");
+    if (r.s2){
+      out.s2.push(tbl(["Seção 2 — domínio","Resposta","Pontuação","Critério para Categoria 3"], r.itens.map(function(o){
+        var it = o.it, resp, pts;
+        if (o.pulado){ resp = "pulado (pergunta "+it.skip.slice(1)+" = NÃO)"; pts = "—"; }
+        else {
+          if (it.fq) resp = o.assumido ? "não informado" :
+            "frequência: "+mpdLabel(MPD_FREQ, o.f)+(o.f>0 ? " · gravidade: "+(o.s!==undefined?mpdLabel(MPD_SEV,o.s):BLANK) : "");
+          else resp = o.assumido ? "não informado" : mpdLabel(it.opts, o.v);
+          pts = it.fq && o.f>0 && o.s!==undefined ? o.f+" × "+o.s+" = "+o.score : String(o.score);
+          if (o.hit) pts = "**"+pts+"**";
+        }
+        return [it.title, resp, pts, MPD_GRP[it.g].crit];
+      })), "");
+    }
+    if (r.cat){
+      out.res.push("**Resultado: Categoria "+r.cat+"** — "+MPD_INTERP[r.cat], "");
+      if (r.gatilhos.length) out.res.push("Itens que determinaram a Categoria 3: "+r.gatilhos.join("; ")+".", "");
+      if (r.info.length) out.res.push("Domínios informativos (não alteram a categoria): "+r.info.join("; ")+".", "");
+    } else {
+      out.res.push("[ Triagem incompleta — faltam: "+r.falta.join(", ")+" ]", "");
+    }
+    return out;
+  }
+
+  function blocoManage(c){
+    var t = mpdTabelas(c);
+    return ["### Ferramenta de triagem MANAGE-PD (Antonini et al., 2021) — aplicada em "+fmtDate(mpd.data), ""]
+      .concat(t.s1, t.s2, t.res);
+  }
+
+  function buildManage(c){
+    var p = patientInfo(), t = mpdTabelas(c);
+    var m = ["# Ferramenta de triagem MANAGE-PD", "",
+      "**Making Informed Decisions to Aid Timely Management of Parkinson's Disease** — triagem de pacientes com doença de Parkinson com controle potencialmente inadequado no regime oral atual, candidatos a avaliação para terapias auxiliadas por dispositivo. Sintomas avaliados com base no último mês.", "",
+      tbl(["Campo","Dado"], [
+        ["ID do paciente", c.reg],
+        ["Iniciais do paciente", p.name ? mpdIniciais(p.name) : BLANK],
+        ["Idade do paciente", c.idade],
+        ["Data da avaliação", fmtDate(mpd.data)]
+      ]), "",
+      "## Seção 1 — Rastreio", ""].concat(t.s1);
+    if (c.mpd.s2) m = m.concat(["## Seção 2 — Frequência e gravidade", "",
+      "Pontuação de frequência: 0 = nunca, 1 = raramente (≤ 1/semana), 2 = às vezes (várias vezes por semana), 3 = a maior parte/todo o tempo (diariamente). Gravidade: 1 = leve, 2 = moderado, 3 = grave. Respostas desconhecidas são consideradas zero. Vale a categoria mais alta atingida em qualquer pergunta; distonia dolorosa e transtorno de controle de impulso são apenas informativos.", ""], t.s2);
+    m = m.concat(["## Resultado", ""], t.res, [
+      tbl(["Categoria","Interpretação"], [["1", MPD_INTERP[1]], ["2", MPD_INTERP[2]], ["3", MPD_INTERP[3]]]), "",
+      "> A ferramenta não fornece orientação sobre o tipo de terapia auxiliada por dispositivo, mas indica que este tipo de terapia pode ser considerado.", ""]);
+    m = m.concat(blocoAssinatura(c));
+    m.push("Fonte: MANAGE-PD © 2020 AbbVie Deutschland GmbH & Co. KG, em colaboração com a Parkinson's Foundation — versão em português ABBV-BR-00741-E (maio/2024). Antonini A, Odin P, Schmidt P, et al. Validation and clinical value of the MANAGE-PD tool: a clinician-reported tool to identify Parkinson's disease patients inadequately controlled on oral medications. Parkinsonism Relat Disord. 2021;92:59-66.", "");
+    return m.join("\n");
+  }
+
   /* ==================== LAUDOS ==================== */
   var LAUDO_TYPES = [
     {id:"circ",   label:"Relatório circunstanciado", desc:"Documento completo para operadora, auditoria ou via judicial"},
     {id:"resumo", label:"Solicitação resumida",      desc:"1–2 páginas para autorização prévia"},
     {id:"receita",label:"Receituário / prescrição",  desc:"Prescrição da infusão, insumos e quantitativo mensal"},
     {id:"acomp",  label:"Relatório de acompanhamento",desc:"Reavaliação após 3–6 meses, para manutenção do fornecimento"},
-    {id:"decl",   label:"Declaração — demais terapias",desc:"Justificativa da exclusão de DBS, gel intestinal e apomorfina"}
+    {id:"decl",   label:"Declaração — demais terapias",desc:"Justificativa da exclusão de DBS, gel intestinal e apomorfina"},
+    {id:"manage", label:"Ficha MANAGE-PD",            desc:"Triagem preenchida e pontuada, para prontuário ou anexo ao pedido"}
   ];
   var ADV_OPTS = ["","contraindicada","não indicada","recusada pelo paciente",
                   "já realizada, com resposta insuficiente","utilizada previamente, com falha ou intolerância"];
@@ -921,7 +1320,7 @@
   ];
 
   var LAUDO_GROUPS = [
-    {id:"dest", title:"Destinatário e emissão", types:"circ resumo receita acomp decl", open:true, fields:[
+    {id:"dest", title:"Destinatário e emissão", types:"circ resumo receita acomp decl manage", open:true, fields:[
       {id:"l-dest-tipo", label:"Destinatário", type:"select", w:1,
        opts:["Operadora de saúde / Auditoria Médica","Secretaria de Saúde","Comissão de Farmácia e Terapêutica","Juízo (ação judicial)","Outro"]},
       {id:"l-dest-nome", label:"Nome da operadora / órgão / vara", type:"text"},
@@ -930,7 +1329,7 @@
       {id:"l-data",     label:"Data do documento", type:"date"},
       {id:"l-anexos",   label:"Incluir anexos (tabelas da bula, diário e referências)", type:"check1", def:true, w:2}
     ]},
-    {id:"md", title:"Médico assistente", types:"circ resumo receita acomp decl", fields:[
+    {id:"md", title:"Médico assistente", types:"circ resumo receita acomp decl manage", fields:[
       {id:"l-md-crm",   label:"CRM / UF", type:"text"},
       {id:"l-md-rqe",   label:"RQE (Neurologia)", type:"text"},
       {id:"l-md-inst",  label:"Instituição / serviço", type:"text", w:2},
@@ -965,7 +1364,7 @@
       {id:"l-disc",    label:"Horas/dia de discinesia incômoda", type:"number", step:"0.1"},
       {id:"l-on-sem",  label:"Horas/dia ON sem discinesia incômoda", type:"number", step:"0.1"},
       {id:"l-dias",    label:"Dias de diário registrados", type:"number"},
-      {id:"l-manage",  label:"MANAGE-PD", type:"select", opts:["","não aplicada","Categoria 1","Categoria 2","Categoria 3"]},
+      {id:"l-manage",  label:"MANAGE-PD (vazio = usar a aba MANAGE-PD)", type:"select", opts:["","não aplicada","Categoria 1","Categoria 2","Categoria 3"]},
       {id:"l-quedas",  label:"Quedas nos últimos 6 meses", type:"number"},
       {id:"l-diario-ini", label:"Início do registro do diário", type:"date"},
       {id:"l-ind", label:"Indicadores adicionais de doença avançada", type:"checks", items:IND_ITENS, w:2}
@@ -1206,6 +1605,7 @@
     c.c1 = c.disc!==null && c.disc>=1;
     c.pos521 = c.c5||c.c2||c.c1;
     c.comtF = o.comtF||1;
+    c.mpd = mpdCompute();
     c.dest = V("l-dest-nome") ? V("l-dest-tipo")+" — "+V("l-dest-nome") : V("l-dest-tipo");
     c.cidade = P(V("l-cidade"));
     c.dataDoc = V("l-data");
@@ -1259,8 +1659,9 @@
         ["≥ 1 h/dia de discinesia incômoda", c.disc!==null?(c.c1?"sim":"não"):BLANK, Pn(c.disc,1,"h/dia")]
       ]), ""];
     if (c.pos521) m.push("**Paciente 5-2-1 positivo**, com indicação formal de avaliação para terapia de infusão contínua.", "");
-    if (V("l-manage") && V("l-manage")!=="não aplicada")
-      m.push("Ferramenta MANAGE-PD (Antonini et al., 2021): **"+V("l-manage")+"**.", "");
+    var manageManual = V("l-manage") && V("l-manage")!=="não aplicada" ? V("l-manage") : "";
+    if (manageManual) m.push("Ferramenta MANAGE-PD (Antonini et al., 2021): **"+manageManual+"**.", "");
+    else if (c.mpd.cat && V("l-manage")!=="não aplicada") m = m.concat(blocoManage(c));
     var ind = checkedItems("l-ind");
     if (ind.length){
       m.push("### Indicadores adicionais de doença avançada", "");
@@ -1607,7 +2008,8 @@
       "**Critérios de reavaliação ou suspensão:** ausência de benefício clínico sustentado após período adequado de titulação; reações ou infecções graves e recorrentes no local de infusão; psicose refratária; perda da capacidade de manejo do dispositivo sem cuidador disponível; contraindicação superveniente. A descontinuação, se necessária, será programada, com substituição por terapia dopaminérgica alternativa, evitando-se a retirada abrupta.", "");
 
     m.push("## 14. Conclusão e declaração", "",
-      "Diante do exposto, atesto que o paciente **"+c.nome+"** é portador de doença de Parkinson avançada (CID-10 G20), responsiva à levodopa, com flutuações motoras graves e discinesias incômodas não controladas apesar de tratamento oral otimizado, preenchendo integralmente os critérios de indicação constantes da bula aprovada pela Anvisa para foslevodopa/foscarbidopa hidratada (VYALEV®), medicamento com registro sanitário vigente no Brasil (registro nº 1.9860.0023).", "",
+      "Diante do exposto, atesto que o paciente **"+c.nome+"** é portador de doença de Parkinson avançada (CID-10 G20), responsiva à levodopa, com flutuações motoras graves e discinesias incômodas não controladas apesar de tratamento oral otimizado"+
+      (c.mpd.cat===3 && !V("l-manage") ? ", classificado como Categoria 3 na ferramenta de triagem MANAGE-PD" : "")+", preenchendo integralmente os critérios de indicação constantes da bula aprovada pela Anvisa para foslevodopa/foscarbidopa hidratada (VYALEV®), medicamento com registro sanitário vigente no Brasil (registro nº 1.9860.0023).", "",
       "**Solicito**, portanto, a autorização e o fornecimento do medicamento e dos insumos discriminados no item 10, incluindo a bomba de infusão VYAFUSER™, de uso obrigatório e exclusivo para a administração do produto, em caráter contínuo, com reavaliação em "+P(V("l-reaval"))+".", "",
       "Declaro que as informações aqui prestadas são verídicas, que decorrem do acompanhamento clínico direto do paciente e que assumo a responsabilidade técnica pela prescrição e pelo seguimento do tratamento, nos termos do Código de Ética Médica. Coloco-me à disposição para esclarecimentos adicionais e para discussão do caso com a auditoria médica.", "");
 
@@ -1772,7 +2174,7 @@
     return m.join("\n");
   }
 
-  var BUILDERS = {circ:buildCirc, resumo:buildResumo, receita:buildReceita, acomp:buildAcomp, decl:buildDecl};
+  var BUILDERS = {circ:buildCirc, resumo:buildResumo, receita:buildReceita, acomp:buildAcomp, decl:buildDecl, manage:buildManage};
 
   /* ---- Markdown → HTML ---- */
   function md2html(md){
@@ -1989,7 +2391,8 @@
     $("comt").value="1"; $("awake").value=16; $("regimen").value="24";
     $("high-pct").value=20; $("low-pct").value=20; $("extra").value="0.20";
     laudoType = "circ"; buildLaudoForm(); laudoDefaults();
-    renderPatient(); calcLedd(); calc(); renderLaudo();
+    mpd = mpdVazio(); mpdDefaults();
+    renderPatient(); calcLedd(); calc(); renderLaudo(); renderMpd();
   });
   $("add-row").addEventListener("click", function(){ addRow("","","ir-cd"); });
   $("ledd-add").addEventListener("click", function(){ addLeddRow(); calcLedd(); });
@@ -2004,10 +2407,12 @@
   if (!loadState()) addRow("","","ir-cd");
   if (!laudoBuilt) buildLaudoForm();
   laudoDefaults();
+  mpdDefaults();
   renderPatient();
   calcLedd();
   calc();
   renderLaudo();
+  renderMpd();
 })();
 </script>
 </body>

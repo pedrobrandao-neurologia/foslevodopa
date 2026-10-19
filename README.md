@@ -6,7 +6,7 @@ Aplicativo de página única (`index.html`), sem dependências, sem servidor e s
 
 ## Funcionalidades
 
-O app é organizado em quatro abas:
+O app é organizado em cinco abas:
 
 ### 💉 Infusão
 Conversão da terapia oral com levodopa (± inibidor da COMT) para os parâmetros de programação da bomba:
@@ -30,8 +30,21 @@ Cálculo da dose equivalente diária de levodopa com os fatores de conversão de
 - Triexifenidil por tomadas eficazes (100 mg LED por tomada com melhora ≥ 5 pontos no UPDRS-III)
 - Total em mg/dia com detalhamento por classe farmacológica
 
+### 🩺 MANAGE-PD
+Versão digital e autocalculada da ferramenta de triagem **MANAGE-PD** (*Making Informed Decisions to Aid Timely Management of Parkinson's Disease*; Antonini et al., *Parkinsonism Relat Disord* 2021), que identifica pacientes com controle inadequado no regime oral e potencialmente candidatos a terapias assistidas por dispositivo. Segue as regras de pontuação do formulário em português (ABBV-BR-00741-E):
+
+- **Seção 1** — doses diárias de levodopa e quatro perguntas SIM/NÃO. ≤ 3 doses: NÃO para tudo = Categoria 1, algum SIM = Categoria 2. 4 doses: NÃO para tudo = Categoria 1, algum SIM = Seção 2. ≥ 5 doses: sempre Seção 2.
+- **Seção 2** (categoria mínima 2; vale a mais alta atingida):
+  - flutuações motoras, congelamento da marcha, sintomas não motores de “off” e alucinação/psicose — frequência × gravidade ≥ 3 → Categoria 3
+  - gravidade do “off”, frequência da discinesia e dependência nas AVD — escore 2 ou 3 → Categoria 3
+  - quedas no último mês — 1 ou 2 → Categoria 3
+  - distonia dolorosa e transtorno de controle de impulso — apenas informativos
+- Itens são pulados automaticamente quando a pergunta correspondente da Seção 1 é NÃO; respostas desconhecidas contam como zero, como orienta o formulário.
+- Sugere respostas a partir das outras abas (tomadas diárias da aba Infusão, horas de OFF e de discinesia informadas nos laudos).
+- O resultado entra automaticamente no relatório circunstanciado, na solicitação resumida e no relatório de acompanhamento, e pode ser impresso como ficha própria.
+
 ### 📄 Laudos
-Geração de cinco tipos de documento de prescrição e solicitação, já preenchidos com os dados das demais abas:
+Geração de seis tipos de documento de prescrição, solicitação e triagem, já preenchidos com os dados das demais abas:
 
 | Documento | Uso |
 |---|---|
@@ -40,6 +53,7 @@ Geração de cinco tipos de documento de prescrição e solicitação, já preen
 | **Receituário / prescrição** | Prescrição da infusão, programação da bomba, insumos e quantitativo mensal |
 | **Relatório de acompanhamento** | Reavaliação após 3–6 meses, comparando desfechos antes e depois, para manutenção do fornecimento |
 | **Declaração — demais terapias** | Justificativa da exclusão de DBS, gel intestinal e apomorfina (o ponto mais contestado em auditoria) |
+| **Ficha MANAGE-PD** | Triagem preenchida e pontuada, para o prontuário ou como anexo ao pedido |
 
 O preenchimento é feito em grupos recolhíveis, cada um com contador de campos preenchidos; só aparecem os grupos que o documento escolhido usa. O que ficar em branco sai como `[ ]` no documento, e um contador informa quantos campos ainda faltam.
 
@@ -84,6 +98,7 @@ TLD = dose total de levodopa na vigília, em equivalentes de levodopa IR, exclui
 2. PRODUODOPA® — EMA SmPC.
 3. Aldred J, et al. Continuous subcutaneous foslevodopa/foscarbidopa infusion: considerations for initiation and maintenance. *Clin Park Relat Disord*. 2024;10:100239.
 4. Jost ST, Kaldenbach MA, Antonini A, et al. Levodopa dose equivalency in Parkinson's disease: updated systematic review and proposals. *Mov Disord*. 2023;38(7):1236-1252. doi:10.1002/mds.29410
+5. Antonini A, Odin P, Schmidt P, et al. Validation and clinical value of the MANAGE-PD tool: a clinician-reported tool to identify Parkinson's disease patients inadequately controlled on oral medications. *Parkinsonism Relat Disord*. 2021;92:59-66.
 
 ## Aviso
 
