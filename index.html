@@ -1087,10 +1087,27 @@
       .map(function(p){ return p.charAt(0).toUpperCase()+"."; }).join("");
   }
 
+  /* Tomadas diárias de levodopa a partir da aba Infusão. Formulações diferentes podem ser
+     tomadas nos mesmos horários, então com várias linhas só se sabe que o número de tomadas
+     fica entre a maior frequência de uma linha (min) e a soma das linhas (max). */
+  function tomadasInfusao(){
+    var n = 0, min = 0, max = 0;
+    medsBody.querySelectorAll("tr").forEach(function(tr){
+      var t = parseFloat(tr.querySelector(".m-times").value)||0;
+      if (t > 0){ n++; min = Math.max(min, t); max += t; }
+    });
+    return {n:n, min:min, max:max, exato: n===1 ? max : null};
+  }
+  function mpdFaixaDoses(t){ return t<=3 ? "le3" : t===4 ? "4" : "ge5"; }
+
   function mpdSugestoes(){
-    var s = {}, tom = 0;
-    medsBody.querySelectorAll("tr").forEach(function(tr){ tom += parseFloat(tr.querySelector(".m-times").value)||0; });
-    if (tom) s.q1 = {v: tom<=3?"le3":tom===4?"4":"ge5", txt: fmt(tom,0)+" tomadas/dia na aba Infusão"};
+    var s = {}, t = tomadasInfusao();
+    if (t.exato) s.q1 = {v: mpdFaixaDoses(t.exato), txt: fmt(t.exato,0)+" tomadas/dia na aba Infusão"};
+    else if (t.n > 1){
+      var faixa = fmt(t.min,0)+" a "+fmt(t.max,0)+" tomadas/dia na aba Infusão, conforme as formulações sejam tomadas juntas ou em horários diferentes";
+      s.q1 = mpdFaixaDoses(t.min)===mpdFaixaDoses(t.max) ? {v: mpdFaixaDoses(t.min), txt: faixa}
+           : {v: null, txt: faixa+" — confirme com o paciente o número de horários de tomada"};
+    }
     var off = $("l-off") ? N("l-off") : null, disc = $("l-disc") ? N("l-disc") : null;
     if (off!==null) s.q2 = {v: off>=2?"sim":"nao", txt: fmt(off,1)+" h/dia de OFF informadas na aba Laudos"};
     if (disc!==null) s.q4 = {v: disc>0?"sim":"nao", txt: fmt(disc,1)+" h/dia de discinesia incômoda informadas na aba Laudos"};
@@ -1098,6 +1115,7 @@
   }
   function sugHtml(sug, key, opts){
     if (!sug || String(mpd[key])===String(sug.v)) return "";
+    if (sug.v===null) return '<div class="sug">Pelas outras abas: '+esc(sug.txt)+'.</div>';
     return '<div class="sug">Sugestão pelas outras abas: <strong>'+esc(mpdLabel(opts, sug.v))+'</strong> ('+esc(sug.txt)+')'+
            '<button type="button" data-apply="'+key+'" data-v="'+sug.v+'">aplicar</button></div>';
   }
@@ -1238,6 +1256,14 @@
       out.res.push("[ Triagem incompleta — faltam: "+r.falta.join(", ")+" ]", "");
     }
     return out;
+  }
+
+  // categoria escolhida à mão no laudo tem prioridade; senão, usa a triagem da aba MANAGE-PD
+  function linhasManage(c){
+    var manual = V("l-manage") && V("l-manage")!=="não aplicada" ? V("l-manage") : "";
+    if (manual) return ["Ferramenta MANAGE-PD (Antonini et al., 2021): **"+manual+"**.", ""];
+    if (c.mpd.cat && V("l-manage")!=="não aplicada") return blocoManage(c);
+    return [];
   }
 
   function blocoManage(c){
@@ -1596,9 +1622,8 @@
     c.equipos = 12;
     c.load = N("l-dose-ini")!==null ? N("l-dose-ini") : (o.load||null);
     c.extra = o.extra||null; c.extraLd = o.extraLd||null;
-    var tom = 0;
-    medsBody.querySelectorAll("tr").forEach(function(tr){ tom += parseFloat(tr.querySelector(".m-times").value)||0; });
-    c.tomadas = N("l-tomadas")!==null ? N("l-tomadas") : (tom||null);
+    // com várias formulações a contagem é ambígua: fica em branco para o médico informar
+    c.tomadas = N("l-tomadas")!==null ? N("l-tomadas") : tomadasInfusao().exato;
     c.off = N("l-off"); c.disc = N("l-disc"); c.onSem = N("l-on-sem");
     c.c5 = c.tomadas!==null && c.tomadas>=5;
     c.c2 = c.off!==null && c.off>=2;
@@ -1659,9 +1684,7 @@
         ["≥ 1 h/dia de discinesia incômoda", c.disc!==null?(c.c1?"sim":"não"):BLANK, Pn(c.disc,1,"h/dia")]
       ]), ""];
     if (c.pos521) m.push("**Paciente 5-2-1 positivo**, com indicação formal de avaliação para terapia de infusão contínua.", "");
-    var manageManual = V("l-manage") && V("l-manage")!=="não aplicada" ? V("l-manage") : "";
-    if (manageManual) m.push("Ferramenta MANAGE-PD (Antonini et al., 2021): **"+manageManual+"**.", "");
-    else if (c.mpd.cat && V("l-manage")!=="não aplicada") m = m.concat(blocoManage(c));
+    m = m.concat(linhasManage(c));
     var ind = checkedItems("l-ind");
     if (ind.length){
       m.push("### Indicadores adicionais de doença avançada", "");
@@ -2124,6 +2147,7 @@
         ["LEDD total", BLANK, c.ledd, BLANK]
       ]), "");
     if (V("l-fu-desfecho")) m.push("**Avaliação global:** "+V("l-fu-desfecho")+".", "");
+    m = m.concat(linhasManage(c));
     m.push(tbl(["Escala","Escore atual"], [
       ["MDS-UPDRS I", Pn(N("l-u1"),0)], ["MDS-UPDRS II", Pn(N("l-u2"),0)],
       ["MDS-UPDRS III — ON", Pn(N("l-u3on"),0)], ["MDS-UPDRS IV", Pn(N("l-u4"),0)],
@@ -2238,9 +2262,9 @@
     if (!$("laudo-form").children.length) return;
     var c = laudoCtx();
     // mostra no placeholder o valor herdado das outras abas, para o médico saber que já está coberto
-    var o = window.__calc||{}, tom = 0;
-    medsBody.querySelectorAll("tr").forEach(function(tr){ tom += parseFloat(tr.querySelector(".m-times").value)||0; });
-    $("l-tomadas").placeholder = tom ? fmt(tom,0)+" (da aba Infusão)" : "n";
+    var o = window.__calc||{}, tom = tomadasInfusao();
+    $("l-tomadas").placeholder = tom.exato ? fmt(tom.exato,0)+" (da aba Infusão)"
+      : tom.n > 1 ? "entre "+fmt(tom.min,0)+" e "+fmt(tom.max,0)+" — informe" : "n";
     $("l-dose-ini").placeholder = o.load ? fmt(o.load,1)+" (da aba Infusão)" : "mL";
     var md = BUILDERS[laudoType](c);
     window.__laudoMd = md;
